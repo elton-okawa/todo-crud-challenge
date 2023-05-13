@@ -1,0 +1,15 @@
+{
+  "name": "todo-crud-challenge",
+  "version": "0.1.0",
+  "repository": "git@github.com:elton-okawa/todo-crud-challenge.git",
+  "author": "Elton Okawa <elton.okawa@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start:dev": "concurrently --names 'SERVER' -c 'green' 'cd api && yarn start:dev'",
+    "postinstall": "concurrently 'cd api && yarn'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
