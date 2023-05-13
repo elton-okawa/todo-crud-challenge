@@ -4,5 +4,11 @@
   "repository": "git@github.com:elton-okawa/todo-crud-challenge.git",
   "author": "Elton Okawa <elton.okawa@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start:dev": "concurrently --names 'SERVER' -c 'green' 'cd api && yarn start:dev'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
 }
