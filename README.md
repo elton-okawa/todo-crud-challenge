@@ -20,6 +20,10 @@ Server:
 yarn start:dev
 ```
 
+## Check it out
+
+- [Improvements](./docs/improvements.md)
+
 ## Feature checklist
 
 View [source](https://github.com/BemteviSeguros/jobs/blob/main/Challenge.md)
