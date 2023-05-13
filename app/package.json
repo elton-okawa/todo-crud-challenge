@@ -19,13 +19,15 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start:dev": "react-scripts start",
     "build": "relay-compiler --validate && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx .",
-    "relay": "relay-compiler"
+    "relay": "relay-compiler",
+    "watch:relay": "relay-compiler --watch",
+    "watch:react": "react-scripts start"
   },
+  "proxy": "http://localhost:4000",
   "browserslist": {
     "production": [
       ">0.2%",

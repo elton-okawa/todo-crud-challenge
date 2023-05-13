@@ -13,7 +13,7 @@ const schema = buildSchema(`
 
 const root = {
   hello: () => {
-    return 'Hello world!';
+    return 'Hello new world!';
   },
 };
 
