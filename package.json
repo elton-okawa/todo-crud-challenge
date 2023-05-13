@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:dev": "concurrently --names 'SERVER' -c 'green' 'cd api && yarn start:dev'"
+    "start:dev": "concurrently --names 'SERVER' -c 'green' 'cd api && yarn start:dev'",
+    "postinstall": "concurrently 'cd api && yarn'"
   },
   "devDependencies": {
     "concurrently": "^8.0.1"
