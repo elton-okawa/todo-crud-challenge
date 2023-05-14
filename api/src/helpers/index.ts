@@ -1,2 +1,2 @@
 export * from './plainToInstance';
-export * from './plainToInstanceValidate';
+export * from './validate';
