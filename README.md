@@ -2,6 +2,13 @@
 
 ## Quick start
 
+### Pre requisites
+
+- [watchman](https://facebook.github.io/watchman/)
+  - Relay compiler needs this
+- [docker](https://www.docker.com/)
+  - We use a docker image to run mongodb locally
+
 ### Install dependencies
 
 ```
@@ -10,11 +17,27 @@ yarn
 
 ### Start in development mode
 
-Server:
+Create `.env` file in the root folder:
 
-- https://localhost:4000
-  - /graphql - GraphQL endpoint
-  - /playground - GraphQL Playground
+```
+DB_CONN_STRING="mongodb://admin:admin@localhost:27017"
+DB_NAME="todo"
+```
+
+Start local mongodb using `docker-compose`
+
+```
+docker-compose up -d
+```
+
+Watch changes on both backend and frontend:
+
+- Server:
+  - https://localhost:4000
+    - /graphql - GraphQL endpoint
+    - /playground - GraphQL Playground
+- Frontend:
+  - https://localhost:3000
 
 ```
 yarn start:dev
