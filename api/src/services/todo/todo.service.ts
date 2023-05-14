@@ -1,5 +1,9 @@
 import { todoRepository } from 'data';
 
+import { MutationEditTodoArgs } from '__generated__/graphql';
+import { plainToInstanceValidate } from 'helpers';
+import { EditTodoParams } from './todo.types';
+
 const ID_REGEX = /[0-9a-fA-F]{24}/;
 
 export async function createTodo(name: string, description: string) {
@@ -24,4 +28,16 @@ export async function getTodo(id: string) {
   }
 
   return entity;
+}
+
+export async function editTodo(originalParams: MutationEditTodoArgs) {
+  const params = await plainToInstanceValidate(EditTodoParams, originalParams);
+  const { id, ...others } = params;
+
+  const result = await todoRepository.editTodo(id, others);
+  if (!result) {
+    throw new Error(`Todo entity with id '${id}' not found`);
+  }
+
+  return result;
 }

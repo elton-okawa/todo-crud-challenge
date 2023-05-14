@@ -21,7 +21,6 @@ export function plainToInstance<T, V>(
   options?: ClassTransformOptions
 ): unknown {
   return original(cls, plain, {
-    excludeExtraneousValues: true,
     exposeDefaultValues: true,
     ...options,
   });
