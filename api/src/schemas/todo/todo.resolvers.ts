@@ -4,6 +4,7 @@ import { todoService } from 'services/index';
 
 export const Query: QueryResolvers = {
   listTodo: () => todoService.listTodo(),
+  getTodo: (_, args) => todoService.getTodo(args.id),
 };
 
 export const Mutation: MutationResolvers = {
