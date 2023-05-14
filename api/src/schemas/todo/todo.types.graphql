@@ -1,0 +1,10 @@
+type Mutation {
+  addTodo(name: String!, description: String!): Todo
+}
+
+type Todo {
+  id: ID!
+  name: String
+  description: String
+  completed: Boolean
+}

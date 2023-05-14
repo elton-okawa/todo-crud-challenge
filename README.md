@@ -23,6 +23,8 @@ yarn start:dev
 ## Check it out
 
 - [Improvements](./docs/improvements.md)
+- [Thoughts and Decisions](./docs/thoughts.md)
+- [Useful resources](./docs/resources.md)
 
 ## Feature checklist
 
@@ -33,11 +35,11 @@ View [source](https://github.com/BemteviSeguros/jobs/blob/main/Challenge.md)
 - [x] it should be a [GraphQL](https://graphql.org/) Server using [Node.js](https://nodejs.org/en/) + [TypeScript](https://www.typescriptlang.org/)
 - [ ] it should connect to a database ([MongoDB](https://www.mongodb.com/) or [PostgreSQL](https://www.postgresql.org/))
 - [ ] it should support GraphQL Queries
-- [ ] it should support GraphQL Mutations
+- [x] it should support GraphQL Mutations
 
 ### Frontend
 
-- [ ] it should be a [React](https://reactjs.org/) Web App with [Relay](https://relay.dev/)
+- [x] it should be a [React](https://reactjs.org/) Web App with [Relay](https://relay.dev/)
 - [ ] it should support GraphQL Queries with Relay
 - [ ] it should support GraphQL Mutations with Relay
 
