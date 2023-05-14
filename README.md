@@ -56,8 +56,8 @@ View [source](https://github.com/BemteviSeguros/jobs/blob/main/Challenge.md)
 ### Backend
 
 - [x] it should be a [GraphQL](https://graphql.org/) Server using [Node.js](https://nodejs.org/en/) + [TypeScript](https://www.typescriptlang.org/)
-- [ ] it should connect to a database ([MongoDB](https://www.mongodb.com/) or [PostgreSQL](https://www.postgresql.org/))
-- [ ] it should support GraphQL Queries
+- [x] it should connect to a database ([MongoDB](https://www.mongodb.com/) or [PostgreSQL](https://www.postgresql.org/))
+- [x] it should support GraphQL Queries
 - [x] it should support GraphQL Mutations
 
 ### Frontend

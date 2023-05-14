@@ -26,7 +26,6 @@ database
       '/graphql',
       graphqlHTTP({
         schema: schema,
-        graphiql: true,
       })
     );
 

@@ -6,11 +6,21 @@ import {
 
 export function plainToInstance<T, V>(
   cls: ClassConstructor<T>,
+  plain: V[],
+  options?: ClassTransformOptions
+): T[];
+export function plainToInstance<T, V>(
+  cls: ClassConstructor<T>,
   plain: V,
   options?: ClassTransformOptions
-): T {
+): T;
+
+export function plainToInstance<T, V>(
+  cls: ClassConstructor<T>,
+  plain: unknown,
+  options?: ClassTransformOptions
+): unknown {
   return original(cls, plain, {
-    excludeExtraneousValues: true,
     exposeDefaultValues: true,
     ...options,
   });
