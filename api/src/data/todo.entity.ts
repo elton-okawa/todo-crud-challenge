@@ -1,16 +1,15 @@
-import { randomUUID } from 'crypto';
+import { Expose } from 'class-transformer';
 
 export class TodoEntity {
-  id: string;
-  name: string;
-  description: string;
-  completed: boolean;
+  @Expose()
+  id!: string;
 
-  // TODO typing
-  constructor(params: any) {
-    this.id = params.id ?? randomUUID();
-    this.name = params.name;
-    this.description = params.description;
-    this.completed = params.completed ?? false;
-  }
+  @Expose()
+  name!: string;
+
+  @Expose()
+  description!: string;
+
+  @Expose()
+  completed = false;
 }

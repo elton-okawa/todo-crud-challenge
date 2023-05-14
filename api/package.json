@@ -33,11 +33,13 @@
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/schema": "^9.0.19",
     "@graphql-tools/utils": "^9.2.1",
+    "class-transformer": "^0.5.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
     "graphql": "^16.6.0",
     "graphql-playground-middleware-express": "^1.7.23",
-    "mongodb": "^5.5.0"
+    "mongodb": "^5.5.0",
+    "reflect-metadata": "^0.1.13"
   }
 }

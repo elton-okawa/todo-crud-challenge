@@ -1,10 +1,11 @@
+import 'reflect-metadata';
 import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
 import { schema } from './schemas';
 import { graphqlHTTP } from 'express-graphql';
-import * as database from './database';
+import * as database from './data/database';
 import expressPlayground from 'graphql-playground-middleware-express';
 
 const PORT = 4000;

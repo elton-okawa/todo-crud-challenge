@@ -12,3 +12,48 @@ References:
 
 - https://medium.com/swlh/graphql-js-vs-typegraphql-vs-graphql-nexus-2a8036deb851
 - https://www.youtube.com/watch?v=VnG7ej56lWw
+
+## Why am I using `class-transformer`?
+
+Classes are useful because we can encapsulate logic and use Typescript decorators (e.g. validate fields), but mapping values from Database -> TS can be a bit tricky and repetitive:
+
+```ts
+class TodoEntity {
+  constructor(public name: string, public description: string, public completed: = false, public id?: string) {}
+}
+
+const entity = new TodoEntity(data.name, data.description, data.completed, data.id);
+```
+
+- We need to declare every property
+- Optional ones must be always the last
+  - What if we have two optional properties but we want to provide only the last one?
+  - Default values must be provided if we want to provide an optional value
+
+```ts
+class TodoEntity {
+  id?: string;
+  name: string;
+  description: string;
+  completed = false;
+
+  constructor(params: {
+    name: string;
+    description: string;
+    id?: string;
+    completed?: boolean;
+  }) {
+    this.id = params.id;
+    this.name = params.name;
+    this.description = params.description;
+    this.completed = params.completed ?? false;
+  }
+}
+
+const entity = new TodoEntity(data);
+```
+
+- We had to repeat each value:
+  - to define entity's properties
+  - on constructor in order to provide typing
+  - on the assignment
