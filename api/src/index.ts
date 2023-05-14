@@ -1,5 +1,5 @@
 import express from 'express';
-import { schema } from './schema';
+import { schema } from './schemas';
 import { graphqlHTTP } from 'express-graphql';
 
 const PORT = 4000;

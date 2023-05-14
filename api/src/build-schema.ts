@@ -1,4 +1,4 @@
-import { schema } from './schema';
+import { schema } from './schemas';
 import fs from 'fs';
 import path from 'path';
 import { printSchemaWithDirectives } from '@graphql-tools/utils';

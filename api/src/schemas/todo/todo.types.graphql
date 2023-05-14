@@ -1,5 +1,5 @@
 type Mutation {
-  addTodo: Todo
+  addTodo(name: String!, description: String!): Todo
 }
 
 type Todo {
