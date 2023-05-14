@@ -1,28 +1,15 @@
 import express from 'express';
+import { schema } from './graphql';
 import { graphqlHTTP } from 'express-graphql';
-import { buildSchema } from 'graphql';
 
 const PORT = 4000;
 const GRAPH_QL_ENDPOINT = '/graphql';
-
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-const root = {
-  hello: () => {
-    return 'Hello new world!';
-  },
-};
 
 const app = express();
 app.use(
   '/graphql',
   graphqlHTTP({
     schema: schema,
-    rootValue: root,
     graphiql: true,
   })
 );

@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:dev": "concurrently --names 'SERVER,REACT,RELAY' -c 'green,blue,yellow' 'cd api && yarn start:dev' 'cd app && yarn watch:react' 'cd app && yarn watch:relay'",
+    "start:dev": "concurrently --names 'SERVER,TYPES,REACT,RELAY' -c 'green,blue,yellow' 'cd api && yarn watch:server' 'cd api && yarn watch:codegen' 'cd app && yarn watch:react' 'cd app && yarn watch:relay'",
     "postinstall": "concurrently --names 'BACKEND,FRONTEND' 'cd api && yarn' 'cd app && yarn'"
   },
   "devDependencies": {
