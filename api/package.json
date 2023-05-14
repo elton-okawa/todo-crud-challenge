@@ -4,10 +4,10 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "watch:server": "nodemon --exec ts-node src/index.ts",
-    "watch:codegen": "nodemon --exec 'yarn codegen --watch graphql/** --ext ts,graphql'",
+    "watch:server": "nodemon --exec 'ts-node -r tsconfig-paths/register src/index.ts'",
+    "watch:codegen": "nodemon --exec 'yarn codegen' --watch graphql/** --ext graphql",
     "lint": "eslint --ext .ts .",
-    "codegen:schema": "ts-node src/build-schema.ts",
+    "codegen:schema": "ts-node -r tsconfig-paths/register src/build-schema.ts",
     "codegen:types": "graphql-codegen --config codegen.ts",
     "codegen": "yarn codegen:schema && yarn codegen:types",
     "postinstall": "yarn codegen"
@@ -26,6 +26,7 @@
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {

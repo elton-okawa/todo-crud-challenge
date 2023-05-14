@@ -7,10 +7,8 @@ const config: CodegenConfig = {
     'src/__generated__/graphql.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
     },
-    './graphql.schema.json': {
-      plugins: ['introspection'],
-    },
   },
+  require: ['ts-node/register', 'tsconfig-paths/register'],
 };
 
 export default config;
