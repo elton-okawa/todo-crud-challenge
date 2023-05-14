@@ -1,5 +1,6 @@
 import { todoRepository } from 'data';
 
-export function createTodo(name: string, description: string) {
-  return todoRepository.createTodo({ name, description });
+export async function createTodo(name: string, description: string) {
+  const entity = await todoRepository.createTodo({ name, description });
+  return entity;
 }
