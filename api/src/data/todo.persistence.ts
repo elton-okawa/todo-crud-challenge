@@ -9,3 +9,8 @@ export async function createTodo(todo: Partial<TodoEntity>) {
   entity.id = result.insertedId.toString();
   return entity;
 }
+
+export async function listTodo() {
+  const results = await collections.todo.find().toArray();
+  return plainToInstance(TodoEntity, results);
+}

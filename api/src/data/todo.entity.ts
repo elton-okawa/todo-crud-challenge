@@ -1,7 +1,8 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class TodoEntity {
   @Expose()
+  @Transform((params) => params.obj._id.toString())
   id!: string;
 
   @Expose()

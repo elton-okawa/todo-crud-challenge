@@ -1,3 +1,7 @@
+type Query {
+  listTodo: [Todo]
+}
+
 type Mutation {
   addTodo(name: String!, description: String!): Todo
 }
