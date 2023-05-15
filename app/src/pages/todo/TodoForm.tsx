@@ -1,6 +1,4 @@
-import { Typography, Button, Form, Input } from 'antd';
-import graphql from 'babel-plugin-relay/macro';
-import { useMutation } from 'react-relay';
+import { Typography, Button, Form, Input, Space } from 'antd';
 
 const layout = {
   labelCol: { span: 8 },
@@ -11,32 +9,31 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const TodoFormAddTodoMutation = graphql`
-  mutation TodoFormAddMutation($name: String!, $description: String!) {
-    addTodo(name: $name, description: $description) {
-      id
-      name
-      completed
-    }
-  }
-`;
-
 interface TodoFormValues {
   name: string;
   description: string;
 }
 
-export function TodoForm() {
+interface TodoFormProps {
+  initialValues?: TodoFormValues;
+  onSubmit: (values: TodoFormValues) => void;
+  title: string;
+  onCancel?: () => void;
+  disabled?: boolean;
+}
+
+export function TodoForm({
+  initialValues,
+  onSubmit,
+  onCancel,
+  title,
+  disabled = false,
+}: TodoFormProps) {
   const [form] = Form.useForm();
-  const [commitMutation, isMutationInFlight] = useMutation(
-    TodoFormAddTodoMutation
-  );
 
   const onFinish = (values: TodoFormValues) => {
     form.resetFields();
-    commitMutation({
-      variables: values,
-    });
+    onSubmit(values);
   };
 
   const onReset = () => {
@@ -45,13 +42,17 @@ export function TodoForm() {
 
   return (
     <>
-      <Typography.Title level={3}>Create a new TODO</Typography.Title>
+      <Typography.Title level={3} style={{ textAlign: 'center' }}>
+        {title}
+      </Typography.Title>
       <Form
         {...layout}
         form={form}
         name="control-hooks"
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
+        initialValues={initialValues}
+        disabled={disabled}
       >
         <Form.Item
           name="name"
@@ -72,12 +73,19 @@ export function TodoForm() {
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-          <Button htmlType="button" onClick={onReset}>
-            Reset
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            <Button htmlType="button" onClick={onReset}>
+              Reset
+            </Button>
+            {onCancel && (
+              <Button htmlType="button" onClick={onCancel}>
+                Cancel
+              </Button>
+            )}
+          </Space>
         </Form.Item>
       </Form>
     </>

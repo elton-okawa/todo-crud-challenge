@@ -6,4 +6,4 @@
 
 ### Frontend
 
-- Load GraphQL schema from server
+- Optimistic update new TODO

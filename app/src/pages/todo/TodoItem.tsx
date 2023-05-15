@@ -1,8 +1,9 @@
 import graphql from 'babel-plugin-relay/macro';
 import { TodoItemFragment$key } from './__generated__/TodoItemFragment.graphql';
 import { useFragment } from 'react-relay';
-import { Card, Checkbox, Typography } from 'antd';
+import { Button, Card, Checkbox, Space, Tooltip, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { EditOutlined } from '@ant-design/icons';
 
 const TodoItemFragment = graphql`
   fragment TodoItemFragment on Todo {
@@ -14,9 +15,10 @@ const TodoItemFragment = graphql`
 
 interface TodoItemProps {
   todo: TodoItemFragment$key;
+  onSelect: () => void;
 }
 
-export function TodoItem({ todo }: TodoItemProps) {
+export function TodoItem({ todo, onSelect }: TodoItemProps) {
   const data = useFragment(TodoItemFragment, todo);
 
   const onChange = (e: CheckboxChangeEvent) => {
@@ -25,9 +27,21 @@ export function TodoItem({ todo }: TodoItemProps) {
 
   return (
     <Card>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-        <Checkbox checked={data.completed} onChange={onChange} />
-        <Typography.Text>{data.name}</Typography.Text>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Space>
+          <Checkbox checked={data.completed} onChange={onChange} />
+          <Typography.Text>{data.name}</Typography.Text>
+        </Space>
+        <Tooltip title="Edit TODO">
+          <Button shape="circle" icon={<EditOutlined />} onClick={onSelect} />
+        </Tooltip>
       </div>
     </Card>
   );
