@@ -1,4 +1,6 @@
 import { Typography, Button, Form, Input } from 'antd';
+import graphql from 'babel-plugin-relay/macro';
+import { useMutation } from 'react-relay';
 
 const layout = {
   labelCol: { span: 8 },
@@ -9,11 +11,32 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
+const TodoFormAddTodoMutation = graphql`
+  mutation TodoFormAddMutation($name: String!, $description: String!) {
+    addTodo(name: $name, description: $description) {
+      id
+      name
+      completed
+    }
+  }
+`;
+
+interface TodoFormValues {
+  name: string;
+  description: string;
+}
+
 export function TodoForm() {
   const [form] = Form.useForm();
+  const [commitMutation, isMutationInFlight] = useMutation(
+    TodoFormAddTodoMutation
+  );
 
-  const onFinish = (values: any) => {
-    console.log(values);
+  const onFinish = (values: TodoFormValues) => {
+    form.resetFields();
+    commitMutation({
+      variables: values,
+    });
   };
 
   const onReset = () => {
