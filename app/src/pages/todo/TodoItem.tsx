@@ -52,6 +52,7 @@ export function TodoItem({ todo, onSelect }: TodoItemProps) {
               shape="circle"
               icon={<DeleteOutlined />}
               onClick={onDelete}
+              loading={isInFlight}
             />
           </Tooltip>
         </Space>

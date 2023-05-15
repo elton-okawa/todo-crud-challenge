@@ -20,7 +20,10 @@ export function CreateTodoForm() {
   return (
     <TodoForm
       title="Create new TODO"
-      onSubmit={(values) => commitMutation({ variables: values })}
+      onSubmit={(values, reset) =>
+        commitMutation({ variables: values, onCompleted: reset })
+      }
+      disabled={isMutationInFlight}
     />
   );
 }

@@ -16,7 +16,7 @@ interface TodoFormValues {
 
 interface TodoFormProps {
   initialValues?: TodoFormValues;
-  onSubmit: (values: TodoFormValues) => void;
+  onSubmit: (values: TodoFormValues, resetForm?: () => void) => void;
   title: string;
   onCancel?: () => void;
   disabled?: boolean;
@@ -32,8 +32,7 @@ export function TodoForm({
   const [form] = Form.useForm();
 
   const onFinish = (values: TodoFormValues) => {
-    form.resetFields();
-    onSubmit(values);
+    onSubmit(values, () => form.resetFields());
   };
 
   const onReset = () => {
