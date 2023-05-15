@@ -7,6 +7,7 @@ import { schema } from './schemas';
 import { graphqlHTTP } from 'express-graphql';
 import * as database from './data/database';
 import expressPlayground from 'graphql-playground-middleware-express';
+import { sleepMiddleware } from 'middlewares/sleep.middleware';
 
 const PORT = 4000;
 const GRAPH_QL_ENDPOINT = '/graphql';
@@ -22,6 +23,10 @@ database
   .connect(process.env.DB_CONN_STRING ?? '', process.env.DB_NAME ?? '')
   .then(() => {
     const app = express();
+
+    // WARNING - Only for showcase purpose
+    app.use(sleepMiddleware);
+
     app.use(
       '/graphql',
       graphqlHTTP({
