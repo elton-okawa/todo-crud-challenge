@@ -1,5 +1,5 @@
 type Query {
-  listTodo: [Todo]
+  listTodo: [Todo!]!
   getTodo(id: ID!): Todo
 }
 
@@ -10,7 +10,7 @@ type Mutation {
 
 type Todo {
   id: ID!
-  name: String
-  description: String
-  completed: Boolean
+  name: String!
+  description: String!
+  completed: Boolean!
 }
