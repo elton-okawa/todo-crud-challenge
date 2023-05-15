@@ -10,6 +10,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "antd": "^5.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-relay": "15.0.0",
@@ -24,6 +25,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx .",
     "relay": "relay-compiler",
+    "schema:local": "get-graphql-schema http://localhost:4000/graphql > src/schema.graphql",
     "watch:relay": "relay-compiler --watch",
     "watch:react": "react-scripts start"
   },
@@ -50,6 +52,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "get-graphql-schema": "^2.1.2",
     "relay-compiler": "15.0.0"
   }
 }

@@ -1,4 +1,24 @@
-# Replace this with your own GraphQL schema file!
-type Query {
-  hello: String
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
+type Mutation {
+  addTodo(name: String!, description: String!): Todo
+  editTodo(id: ID!, name: String, description: String, completed: Boolean): Todo
 }
+
+type Query {
+  hello(name: String): String
+  listTodo: [Todo!]!
+  getTodo(id: ID!): Todo
+}
+
+type Todo {
+  id: ID!
+  name: String!
+  description: String!
+  completed: Boolean!
+}
+
