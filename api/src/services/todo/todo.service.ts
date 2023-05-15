@@ -40,3 +40,7 @@ export async function editTodo(params: EditTodoParams) {
 
   return result;
 }
+
+export function deleteTodo(id: string) {
+  return todoRepository.deleteTodo(id);
+}
