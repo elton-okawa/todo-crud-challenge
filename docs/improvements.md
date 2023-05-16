@@ -5,6 +5,3 @@
 - Paginate todo
 
 ### Frontend
-
-- Update todo list
-- Completed mutation
