@@ -1,5 +1,5 @@
 type Query {
-  listTodo: [Todo!]!
+  todos: TodoConnection
   getTodo(id: ID!): Todo
 }
 
@@ -9,7 +9,15 @@ type Mutation {
   deleteTodo(id: ID!): Boolean
 }
 
-type Todo {
+type TodoConnection {
+  edges: [TodoConnectionEdge]
+}
+
+type TodoConnectionEdge {
+  node: Todo!
+}
+
+type Todo implements Node {
   id: ID!
   name: String!
   description: String!

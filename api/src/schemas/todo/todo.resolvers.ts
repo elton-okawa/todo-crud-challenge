@@ -4,7 +4,13 @@ import { plainToInstance } from 'helpers';
 import { todoService, EditTodoParams } from 'services/index';
 
 export const Query: QueryResolvers = {
-  listTodo: () => todoService.listTodo(),
+  todos: async () => {
+    const list = await todoService.listTodo();
+
+    return {
+      edges: list.map((value) => ({ node: value })),
+    };
+  },
   getTodo: (_, args) => todoService.getTodo(args.id),
 };
 
