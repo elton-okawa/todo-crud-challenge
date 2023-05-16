@@ -1,7 +1,14 @@
 import graphql from 'babel-plugin-relay/macro';
-import { useMutation, ConnectionHandler } from 'react-relay';
+import { useMutation, ConnectionHandler, useFragment } from 'react-relay';
 import { TodoForm } from './TodoForm';
 import { useMessage } from '../../contexts/MessageContext';
+import { CreateTodoFormConnectionParent$key } from './__generated__/CreateTodoFormConnectionParent.graphql';
+
+const CreateTodoFormConnectionParent = graphql`
+  fragment CreateTodoFormConnectionParent on User {
+    id
+  }
+`;
 
 const CreateTodoFormMutation = graphql`
   mutation CreateTodoFormMutation(
@@ -24,24 +31,24 @@ const CreateTodoFormMutation = graphql`
 
 // TODO type connection id
 interface CreateTodoFormProps {
-  connectionParentId: string;
+  user: CreateTodoFormConnectionParent$key;
 }
 
-export function CreateTodoForm({ connectionParentId }: CreateTodoFormProps) {
+export function CreateTodoForm({ user }: CreateTodoFormProps) {
+  const data = useFragment(CreateTodoFormConnectionParent, user);
   const [commitMutation, isMutationInFlight] = useMutation(
     CreateTodoFormMutation
   );
   const messageApi = useMessage();
+  const connectionID = ConnectionHandler.getConnectionID(
+    data.id,
+    'TodoListFragment_todos'
+  );
 
   return (
     <TodoForm
       title="Create new TODO"
       onSubmit={(values, reset) => {
-        const connectionID = ConnectionHandler.getConnectionID(
-          connectionParentId,
-          'TodoContainerQuery_todos'
-        );
-
         commitMutation({
           variables: {
             ...values,

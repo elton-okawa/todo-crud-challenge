@@ -11,13 +11,16 @@ interface TodoListProps {
 }
 
 const TodoListFragment = graphql`
-  fragment TodoListFragment on TodoConnection {
-    edges {
-      node {
-        id
-        ...TodoItemFragment
+  fragment TodoListFragment on User {
+    todos(first: 100) @connection(key: "TodoListFragment_todos") {
+      edges {
+        node {
+          id
+          ...TodoItemFragment
+        }
       }
     }
+    ...TodoItemConnectionParentFragment
   }
 `;
 
@@ -30,10 +33,11 @@ export function TodoList({
 
   return (
     <Space direction="vertical" style={{ display: 'flex' }}>
-      {data?.edges.map(({ node }) => (
+      {data?.todos?.edges.map(({ node }) => (
         <TodoItem
           key={node.id}
           todo={node}
+          parent={data}
           onSelect={createSelectedHandler(node.id)}
           selected={node.id === selected}
         />

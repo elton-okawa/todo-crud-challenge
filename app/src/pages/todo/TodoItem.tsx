@@ -1,6 +1,6 @@
 import graphql from 'babel-plugin-relay/macro';
 import { TodoItemFragment$key } from './__generated__/TodoItemFragment.graphql';
-import { useFragment, useMutation } from 'react-relay';
+import { ConnectionHandler, useFragment, useMutation } from 'react-relay';
 import {
   Button,
   Card,
@@ -14,6 +14,13 @@ import {
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useMessage } from '../../contexts/MessageContext';
+import { TodoItemConnectionParentFragment$key } from './__generated__/TodoItemConnectionParentFragment.graphql';
+
+const TodoItemConnectionParentFragment = graphql`
+  fragment TodoItemConnectionParentFragment on User {
+    id
+  }
+`;
 
 const TodoItemFragment = graphql`
   fragment TodoItemFragment on Todo {
@@ -24,24 +31,30 @@ const TodoItemFragment = graphql`
 `;
 
 const TodoItemDeleteMutation = graphql`
-  mutation TodoItemDeleteMutation($id: ID!) {
-    deleteTodo(id: $id)
+  mutation TodoItemDeleteMutation($id: ID!, $connections: [ID!]!) {
+    deleteTodo(id: $id) @deleteEdge(connections: $connections)
   }
 `;
 
 interface TodoItemProps {
   todo: TodoItemFragment$key;
+  parent: TodoItemConnectionParentFragment$key;
   onSelect: () => void;
   selected: boolean;
 }
 
-export function TodoItem({ todo, onSelect, selected }: TodoItemProps) {
+export function TodoItem({ todo, parent, onSelect, selected }: TodoItemProps) {
+  const parentData = useFragment(TodoItemConnectionParentFragment, parent);
   const data = useFragment(TodoItemFragment, todo);
   const [commit, isInFlight] = useMutation(TodoItemDeleteMutation);
   const {
     token: { colorPrimary },
   } = theme.useToken();
   const messageApi = useMessage();
+  const connectionId = ConnectionHandler.getConnectionID(
+    parentData.id,
+    'TodoListFragment_todos'
+  );
 
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
@@ -49,7 +62,7 @@ export function TodoItem({ todo, onSelect, selected }: TodoItemProps) {
 
   const onDelete = () => {
     commit({
-      variables: { id: data.id },
+      variables: { id: data.id, connections: [connectionId] },
       onCompleted: () => {
         messageApi.success('Todo deleted successfully');
       },

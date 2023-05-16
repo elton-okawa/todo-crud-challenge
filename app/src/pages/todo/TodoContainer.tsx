@@ -14,14 +14,8 @@ const TodoContainerQuery = graphql`
   query TodoContainerQuery {
     me {
       id
-      todos(first: 100) @connection(key: "TodoContainerQuery_todos") {
-        edges {
-          node {
-            id
-          }
-        }
-        ...TodoListFragment
-      }
+      ...TodoListFragment
+      ...CreateTodoFormConnectionParent
     }
   }
 `;
@@ -46,7 +40,7 @@ export function TodoContainer() {
   };
 
   // TODO handle todo not exist
-  if (!query?.me?.todos) {
+  if (!query?.me) {
     return null;
   }
 
@@ -70,13 +64,13 @@ export function TodoContainer() {
             />
           </React.Suspense>
         ) : (
-          <CreateTodoForm connectionParentId={query?.me?.id} />
+          <CreateTodoForm user={query?.me} />
         )}
       </Col>
       <Col span={10}>
         <TodoList
           createSelectedHandler={createSelectedHandler}
-          todos={query.me.todos}
+          todos={query.me}
           selected={selected}
         />
       </Col>
