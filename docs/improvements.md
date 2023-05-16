@@ -6,4 +6,5 @@
 
 ### Frontend
 
-- Load GraphQL schema from server
+- Update todo list
+- Completed mutation

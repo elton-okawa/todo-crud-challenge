@@ -14,4 +14,5 @@ export const Mutation: MutationResolvers = {
     const params = plainToInstance(EditTodoParams, args);
     return todoService.editTodo(params);
   },
+  deleteTodo: (_, args) => todoService.deleteTodo(args.id),
 };

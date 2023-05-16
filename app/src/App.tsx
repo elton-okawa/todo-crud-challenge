@@ -1,41 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import graphql from 'babel-plugin-relay/macro';
-import {
-  useQueryLoader,
-  usePreloadedQuery,
-  useLazyLoadQuery,
-} from 'react-relay';
-import type { AppQuery as AppQueryType } from './__generated__/AppQuery.graphql';
-
-const AppQuery = graphql`
-  query AppQuery {
-    hello
-  }
-`;
+import { Layout, Menu, Typography, message, theme } from 'antd';
+import { TodoContainer } from './pages';
+import { MessageContext } from './contexts/MessageContext';
+const { Header, Content, Footer } = Layout;
+const { Text } = Typography;
 
 function App() {
-  const data = useLazyLoadQuery<AppQueryType>(AppQuery, {});
+  const {
+    token: { colorTextLightSolid },
+  } = theme.useToken();
+  const [messageApi, contextHolder] = message.useMessage();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>{data.hello}</h1>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {contextHolder}
+      <MessageContext.Provider value={messageApi}>
+        <Layout style={{ height: '100vh', display: 'flex' }}>
+          <Header
+            style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%' }}
+          >
+            <Text
+              style={{
+                color: colorTextLightSolid,
+                fontSize: 20,
+                margin: 'auto 0',
+              }}
+            >
+              TODO Manager
+            </Text>
+          </Header>
+          <Content
+            className="site-layout"
+            style={{
+              marginTop: '10px',
+              padding: '0 50px',
+              height: '100%',
+              flexGrow: 1,
+            }}
+          >
+            <TodoContainer />
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>TODO Manager ©2023</Footer>
+        </Layout>
+      </MessageContext.Provider>
+    </>
   );
 }
 
