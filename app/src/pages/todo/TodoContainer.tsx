@@ -8,12 +8,12 @@ import type { EditTodoFormQuery as EditTodoFormQueryType } from './__generated__
 import { EditTodoFormQuery, EditTodoForm } from './EditTodoForm';
 import { CreateTodoForm } from './CreateTodoForm';
 import { LoadingIndicator } from '../../components';
+import { TodoList } from './TodoList';
 
 const TodoContainerQuery = graphql`
   query TodoContainerQuery {
-    listTodo {
-      id
-      ...TodoItemFragment
+    me {
+      ...TodoListFragment
     }
   }
 `;
@@ -36,6 +36,11 @@ export function TodoContainer() {
     loadEditFormQuery({ id });
     setSelected(id);
   };
+
+  // TODO handle todo not exist
+  if (!query?.me) {
+    return null;
+  }
 
   return (
     <Row
@@ -61,16 +66,11 @@ export function TodoContainer() {
         )}
       </Col>
       <Col span={10}>
-        <Space direction="vertical" style={{ display: 'flex' }}>
-          {query.listTodo.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onSelect={createSelectedHandler(todo.id)}
-              selected={todo.id === selected}
-            />
-          ))}
-        </Space>
+        <TodoList
+          createSelectedHandler={createSelectedHandler}
+          todos={query.me}
+          selected={selected}
+        />
       </Col>
     </Row>
   );

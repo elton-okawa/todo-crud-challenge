@@ -10,7 +10,7 @@ type Mutation {
 }
 
 type TodoConnection {
-  edges: [TodoConnectionEdge]
+  edges: [TodoConnectionEdge!]!
 }
 
 type TodoConnectionEdge {

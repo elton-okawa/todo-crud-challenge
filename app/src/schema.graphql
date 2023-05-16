@@ -10,16 +10,34 @@ type Mutation {
   deleteTodo(id: ID!): Boolean
 }
 
-type Query {
-  hello(name: String): String
-  listTodo: [Todo!]!
-  getTodo(id: ID!): Todo
+interface Node {
+  id: ID!
 }
 
-type Todo {
+type Query {
+  hello(name: String): String
+  todos: TodoConnection
+  getTodo(id: ID!): Todo
+  me: User
+}
+
+type Todo implements Node {
   id: ID!
   name: String!
   description: String!
   completed: Boolean!
+}
+
+type TodoConnection {
+  edges: [TodoConnectionEdge!]!
+}
+
+type TodoConnectionEdge {
+  node: Todo!
+}
+
+type User implements Node {
+  id: ID!
+  todos: TodoConnection
 }
 
