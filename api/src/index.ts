@@ -7,7 +7,7 @@ import { schema } from './schemas';
 import { graphqlHTTP } from 'express-graphql';
 import * as database from './data/database';
 import expressPlayground from 'graphql-playground-middleware-express';
-import { sleepMiddleware } from 'middlewares/sleep.middleware';
+import { sleepMiddleware } from 'middlewares';
 
 const PORT = 4000;
 const GRAPH_QL_ENDPOINT = '/graphql';
