@@ -51,6 +51,7 @@ export function TodoContainer() {
               key={todo.id}
               todo={todo}
               onSelect={createSelectedHandler(todo.id)}
+              selected={todo.id === selected}
             />
           ))}
         </Space>

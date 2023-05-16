@@ -1,7 +1,16 @@
 import graphql from 'babel-plugin-relay/macro';
 import { TodoItemFragment$key } from './__generated__/TodoItemFragment.graphql';
 import { useFragment, useMutation } from 'react-relay';
-import { Button, Card, Checkbox, Row, Space, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Checkbox,
+  Row,
+  Space,
+  Tooltip,
+  Typography,
+  theme,
+} from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -22,11 +31,15 @@ const TodoItemDeleteMutation = graphql`
 interface TodoItemProps {
   todo: TodoItemFragment$key;
   onSelect: () => void;
+  selected: boolean;
 }
 
-export function TodoItem({ todo, onSelect }: TodoItemProps) {
+export function TodoItem({ todo, onSelect, selected }: TodoItemProps) {
   const data = useFragment(TodoItemFragment, todo);
   const [commit, isInFlight] = useMutation(TodoItemDeleteMutation);
+  const {
+    token: { colorPrimary },
+  } = theme.useToken();
 
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
@@ -37,7 +50,10 @@ export function TodoItem({ todo, onSelect }: TodoItemProps) {
   };
 
   return (
-    <Card size="small">
+    <Card
+      size="small"
+      style={{ borderColor: selected ? colorPrimary : undefined }}
+    >
       <Row justify="space-between" align="middle">
         <Space>
           <Checkbox checked={data.completed} onChange={onChange} />
@@ -45,7 +61,12 @@ export function TodoItem({ todo, onSelect }: TodoItemProps) {
         </Space>
         <Space>
           <Tooltip title="Edit">
-            <Button shape="circle" icon={<EditOutlined />} onClick={onSelect} />
+            <Button
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={onSelect}
+              loading={selected}
+            />
           </Tooltip>
           <Tooltip title="Delete">
             <Button
