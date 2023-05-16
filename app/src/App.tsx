@@ -9,7 +9,7 @@ function App() {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout style={{ height: '100vh', display: 'flex' }}>
       <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%' }}>
         <Text
           style={{ color: colorTextLightSolid, fontSize: 20, margin: 'auto 0' }}
@@ -19,10 +19,20 @@ function App() {
       </Header>
       <Content
         className="site-layout"
-        style={{ marginTop: '10px', padding: '0 50px' }}
+        style={{
+          marginTop: '10px',
+          padding: '0 50px',
+          height: '100%',
+          flexGrow: 1,
+        }}
       >
         <div
-          style={{ padding: 24, minHeight: 380, background: colorBgContainer }}
+          style={{
+            padding: 24,
+            minHeight: 380,
+            height: '100%',
+            background: colorBgContainer,
+          }}
         >
           <TodoContainer />
         </div>

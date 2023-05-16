@@ -1,4 +1,4 @@
-import { Col, Row, Space } from 'antd';
+import { Col, Row, Space, theme } from 'antd';
 import { TodoItem } from './TodoItem';
 import graphql from 'babel-plugin-relay/macro';
 import { useLazyLoadQuery, useQueryLoader } from 'react-relay';
@@ -19,6 +19,10 @@ const TodoContainerQuery = graphql`
 `;
 
 export function TodoContainer() {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   const query = useLazyLoadQuery<TodoContainerQueryType>(
     TodoContainerQuery,
     {}
@@ -34,7 +38,16 @@ export function TodoContainer() {
   };
 
   return (
-    <Row justify="space-evenly">
+    <Row
+      justify="space-evenly"
+      align="middle"
+      style={{
+        padding: 24,
+        minHeight: 380,
+        height: '100%',
+        background: colorBgContainer,
+      }}
+    >
       <Col span={10}>
         {selected ? (
           <React.Suspense fallback={<LoadingIndicator />}>
