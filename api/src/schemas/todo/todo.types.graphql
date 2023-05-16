@@ -1,17 +1,39 @@
 type Query {
-  listTodo: [Todo!]!
+  todos: TodoConnection
   getTodo(id: ID!): Todo
 }
 
 type Mutation {
-  addTodo(name: String!, description: String!): Todo
+  addTodo(name: String!, description: String!): AddTodoMutationResponse!
   editTodo(id: ID!, name: String, description: String, completed: Boolean): Todo
-  deleteTodo(id: ID!): Boolean
+  deleteTodo(id: ID!): ID
 }
 
-type Todo {
+type AddTodoMutationResponse {
+  todoEdge: TodoConnectionEdge!
+}
+
+type TodoConnection {
+  edges: [TodoConnectionEdge!]!
+  pageInfo: PageInfo
+}
+
+type TodoConnectionEdge {
+  node: Todo!
+  cursor: String
+}
+
+type Todo implements Node {
   id: ID!
   name: String!
   description: String!
   completed: Boolean!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  lastCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
 }

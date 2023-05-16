@@ -63,14 +63,14 @@ View [source](https://github.com/BemteviSeguros/jobs/blob/main/Challenge.md)
 ### Frontend
 
 - [x] it should be a [React](https://reactjs.org/) Web App with [Relay](https://relay.dev/)
-- [ ] it should support GraphQL Queries with Relay
-- [ ] it should support GraphQL Mutations with Relay
+- [x] it should support GraphQL Queries with Relay
+- [x] it should support GraphQL Mutations with Relay
 
 ### Bonus & Extras
 
 - [x] open-sourced on your GitHub
 - [ ] automated tests: [Jest](https://jestjs.io/) + [react-testing-library](https://testing-library.com/)
-- [ ] good design (bonus if using a design system, like [antd](https://ant.design/))
+- [x] good design (bonus if using a design system, like [antd](https://ant.design/))
 - [ ] authentication system
 - [ ] [Storybook](https://storybook.js.org/)
 - [x] [GraphQL Playground](https://github.com/graphql/graphql-playground)
