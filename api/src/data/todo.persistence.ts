@@ -33,6 +33,6 @@ export async function editTodo(id: string, params: Partial<TodoEntity>) {
 
 export async function deleteTodo(id: string) {
   const result = await collections.todo.deleteOne({ _id: new ObjectId(id) });
-  console.log(result);
+
   return result.deletedCount === 1;
 }
