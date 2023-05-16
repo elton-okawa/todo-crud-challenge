@@ -36,6 +36,14 @@ const TodoItemDeleteMutation = graphql`
   }
 `;
 
+const TodoItemCompleteMutation = graphql`
+  mutation TodoItemCompleteMutation($id: ID!, $completed: Boolean!) {
+    editTodo(id: $id, completed: $completed) {
+      ...TodoItemFragment
+    }
+  }
+`;
+
 interface TodoItemProps {
   todo: TodoItemFragment$key;
   parent: TodoItemConnectionParentFragment$key;
@@ -46,7 +54,8 @@ interface TodoItemProps {
 export function TodoItem({ todo, parent, onSelect, selected }: TodoItemProps) {
   const parentData = useFragment(TodoItemConnectionParentFragment, parent);
   const data = useFragment(TodoItemFragment, todo);
-  const [commit, isInFlight] = useMutation(TodoItemDeleteMutation);
+  const [deleteTodo, isDeleting] = useMutation(TodoItemDeleteMutation);
+  const [completeTodo, isCompleting] = useMutation(TodoItemCompleteMutation);
   const {
     token: { colorPrimary },
   } = theme.useToken();
@@ -57,11 +66,21 @@ export function TodoItem({ todo, parent, onSelect, selected }: TodoItemProps) {
   );
 
   const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
+    const checked = e.target.checked;
+
+    completeTodo({
+      variables: { id: data.id, completed: checked },
+      optimisticResponse: {
+        editTodo: {
+          ...data,
+          completed: !data.completed,
+        },
+      },
+    });
   };
 
   const onDelete = () => {
-    commit({
+    deleteTodo({
       variables: { id: data.id, connections: [connectionId] },
       onCompleted: () => {
         messageApi.success('Todo deleted successfully');
@@ -93,7 +112,7 @@ export function TodoItem({ todo, parent, onSelect, selected }: TodoItemProps) {
               shape="circle"
               icon={<DeleteOutlined />}
               onClick={onDelete}
-              loading={isInFlight}
+              loading={isDeleting}
             />
           </Tooltip>
         </Space>
