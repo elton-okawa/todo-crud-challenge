@@ -4,5 +4,5 @@ type Query {
 
 type User implements Node {
   id: ID!
-  todos: TodoConnection
+  todos(first: Int): TodoConnection
 }

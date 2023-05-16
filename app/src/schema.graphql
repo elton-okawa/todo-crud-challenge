@@ -4,14 +4,26 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+type AddTodoMutationResponse {
+  todoEdge: TodoConnectionEdge!
+}
+
 type Mutation {
-  addTodo(name: String!, description: String!): Todo
+  addTodo(name: String!, description: String!): AddTodoMutationResponse!
   editTodo(id: ID!, name: String, description: String, completed: Boolean): Todo
   deleteTodo(id: ID!): Boolean
 }
 
 interface Node {
   id: ID!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  lastCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
 }
 
 type Query {
@@ -30,14 +42,16 @@ type Todo implements Node {
 
 type TodoConnection {
   edges: [TodoConnectionEdge!]!
+  pageInfo: PageInfo
 }
 
 type TodoConnectionEdge {
   node: Todo!
+  cursor: String
 }
 
 type User implements Node {
   id: ID!
-  todos: TodoConnection
+  todos(first: Int): TodoConnection
 }
 

@@ -4,17 +4,23 @@ type Query {
 }
 
 type Mutation {
-  addTodo(name: String!, description: String!): Todo
+  addTodo(name: String!, description: String!): AddTodoMutationResponse!
   editTodo(id: ID!, name: String, description: String, completed: Boolean): Todo
   deleteTodo(id: ID!): Boolean
 }
 
+type AddTodoMutationResponse {
+  todoEdge: TodoConnectionEdge!
+}
+
 type TodoConnection {
   edges: [TodoConnectionEdge!]!
+  pageInfo: PageInfo
 }
 
 type TodoConnectionEdge {
   node: Todo!
+  cursor: String
 }
 
 type Todo implements Node {
@@ -22,4 +28,12 @@ type Todo implements Node {
   name: String!
   description: String!
   completed: Boolean!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  lastCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
 }

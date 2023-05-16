@@ -1,21 +1,33 @@
 import graphql from 'babel-plugin-relay/macro';
-import { useMutation } from 'react-relay';
+import { useMutation, ConnectionHandler } from 'react-relay';
 import { TodoForm } from './TodoForm';
-import { message } from 'antd';
-import { PayloadError } from 'relay-runtime';
 import { useMessage } from '../../contexts/MessageContext';
 
 const CreateTodoFormMutation = graphql`
-  mutation CreateTodoFormMutation($name: String!, $description: String!) {
+  mutation CreateTodoFormMutation(
+    $name: String!
+    $description: String!
+    $connections: [ID!]!
+  ) {
     addTodo(name: $name, description: $description) {
-      id
-      name
-      completed
+      todoEdge @appendEdge(connections: $connections) {
+        node {
+          id
+          name
+          description
+          completed
+        }
+      }
     }
   }
 `;
 
-export function CreateTodoForm() {
+// TODO type connection id
+interface CreateTodoFormProps {
+  connectionParentId: string;
+}
+
+export function CreateTodoForm({ connectionParentId }: CreateTodoFormProps) {
   const [commitMutation, isMutationInFlight] = useMutation(
     CreateTodoFormMutation
   );
@@ -24,15 +36,23 @@ export function CreateTodoForm() {
   return (
     <TodoForm
       title="Create new TODO"
-      onSubmit={(values, reset) =>
+      onSubmit={(values, reset) => {
+        const connectionID = ConnectionHandler.getConnectionID(
+          connectionParentId,
+          'TodoContainerQuery_todos'
+        );
+
         commitMutation({
-          variables: values,
+          variables: {
+            ...values,
+            connections: [connectionID],
+          },
           onCompleted: () => {
             messageApi.success('Todo created successfully');
             reset?.();
           },
-        })
-      }
+        });
+      }}
       disabled={isMutationInFlight}
     />
   );
