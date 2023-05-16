@@ -54,6 +54,7 @@ export function EditTodoForm({ queryRef, onCancel }: EditTodoFormProps) {
       }
       onCancel={onCancel}
       disabled={isMutationInFlight}
+      emphasis
     />
   );
 }

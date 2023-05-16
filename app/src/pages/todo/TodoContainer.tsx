@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import type { EditTodoFormQuery as EditTodoFormQueryType } from './__generated__/EditTodoFormQuery.graphql';
 import { EditTodoFormQuery, EditTodoForm } from './EditTodoForm';
 import { CreateTodoForm } from './CreateTodoForm';
+import { LoadingIndicator } from '../../components';
 
 const TodoContainerQuery = graphql`
   query TodoContainerQuery {
@@ -36,10 +37,12 @@ export function TodoContainer() {
     <Row justify="space-evenly">
       <Col span={10}>
         {selected ? (
-          <EditTodoForm
-            queryRef={editFormQueryRef}
-            onCancel={() => setSelected('')}
-          />
+          <React.Suspense fallback={<LoadingIndicator />}>
+            <EditTodoForm
+              queryRef={editFormQueryRef}
+              onCancel={() => setSelected('')}
+            />
+          </React.Suspense>
         ) : (
           <CreateTodoForm />
         )}

@@ -1,12 +1,12 @@
-import { Typography, Button, Form, Input, Space } from 'antd';
+import { Typography, Button, Form, Input, Space, Card, theme } from 'antd';
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
 };
 
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { offset: 6, span: 16 },
 };
 
 interface TodoFormValues {
@@ -20,6 +20,7 @@ interface TodoFormProps {
   title: string;
   onCancel?: () => void;
   disabled?: boolean;
+  emphasis?: boolean;
 }
 
 export function TodoForm({
@@ -27,9 +28,13 @@ export function TodoForm({
   onSubmit,
   onCancel,
   title,
+  emphasis = false,
   disabled = false,
 }: TodoFormProps) {
   const [form] = Form.useForm();
+  const {
+    token: { colorPrimary },
+  } = theme.useToken();
 
   const onFinish = (values: TodoFormValues) => {
     onSubmit(values, () => form.resetFields());
@@ -40,7 +45,7 @@ export function TodoForm({
   };
 
   return (
-    <>
+    <Card style={{ borderColor: emphasis ? colorPrimary : '' }}>
       <Typography.Title level={3} style={{ textAlign: 'center' }}>
         {title}
       </Typography.Title>
@@ -87,6 +92,6 @@ export function TodoForm({
           </Space>
         </Form.Item>
       </Form>
-    </>
+    </Card>
   );
 }

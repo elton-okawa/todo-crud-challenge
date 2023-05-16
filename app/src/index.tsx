@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { LoadingIndicator } from './components';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <RelayEnvironmentProvider environment={RelayEnvironment}>
     <React.StrictMode>
-      <React.Suspense fallback={'loading...'}>
+      <React.Suspense fallback={<LoadingIndicator fullscreen />}>
         <App />
       </React.Suspense>
     </React.StrictMode>
