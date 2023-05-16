@@ -6,4 +6,5 @@
 
 ### Frontend
 
-- Optimistic update new TODO
+- Update todo list
+- Completed mutation
