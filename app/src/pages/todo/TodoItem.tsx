@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { useMessage } from '../../contexts/MessageContext';
 
 const TodoItemFragment = graphql`
   fragment TodoItemFragment on Todo {
@@ -40,13 +41,19 @@ export function TodoItem({ todo, onSelect, selected }: TodoItemProps) {
   const {
     token: { colorPrimary },
   } = theme.useToken();
+  const messageApi = useMessage();
 
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
   const onDelete = () => {
-    commit({ variables: { id: data.id } });
+    commit({
+      variables: { id: data.id },
+      onCompleted: () => {
+        messageApi.success('Todo deleted successfully');
+      },
+    });
   };
 
   return (
