@@ -69,11 +69,11 @@ View [source](https://github.com/BemteviSeguros/jobs/blob/main/Challenge.md)
 ### Bonus & Extras
 
 - [x] open-sourced on your GitHub
-- [ ] automated tests: [Jest](https://jestjs.io/) + [react-testing-library](https://testing-library.com/)
+- [-] automated tests: [Jest](https://jestjs.io/) + [react-testing-library](https://testing-library.com/)
 - [x] good design (bonus if using a design system, like [antd](https://ant.design/))
 - [ ] authentication system
 - [ ] [Storybook](https://storybook.js.org/)
 - [x] [GraphQL Playground](https://github.com/graphql/graphql-playground)
 - [ ] deploy (Vercel? Netlify? Heroku? AWS?)
-- [ ] CI/CD (GitHub Actions, CircleCI etc)
-- [ ] ask for help and for code review during the development
+- [x] CI/CD (GitHub Actions, CircleCI etc)
+- [x] ask for help and for code review during the development
