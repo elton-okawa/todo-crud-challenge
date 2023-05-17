@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start:dev": "concurrently --names 'SERVER,TYPES,REACT,RELAY' -c 'green,blue.dim,yellow,cyan.dim' 'cd api && yarn watch:server' 'cd api && yarn watch:codegen' 'cd app && yarn watch:react' 'cd app && yarn watch:relay'",
-    "postinstall": "concurrently --names 'BACKEND,FRONTEND' 'cd api && yarn' 'cd app && yarn'"
+    "postinstall": "concurrently --names 'BACKEND,FRONTEND' 'cd api && yarn --frozen-lockfile' 'cd app && yarn --frozen-lockfile'"
   },
   "devDependencies": {
     "concurrently": "^8.0.1"
