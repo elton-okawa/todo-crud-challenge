@@ -1,3 +1,5 @@
 node_modules
 __generated__
 .env*
+yarn-error.log
+coverage

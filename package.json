@@ -1,12 +1,14 @@
 {
   "name": "todo-crud-challenge",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "repository": "git@github.com:elton-okawa/todo-crud-challenge.git",
   "author": "Elton Okawa <elton.okawa@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
     "start:dev": "concurrently --names 'SERVER,TYPES,REACT,RELAY' -c 'green,blue.dim,yellow,cyan.dim' 'cd api && yarn watch:server' 'cd api && yarn watch:codegen' 'cd app && yarn watch:react' 'cd app && yarn watch:relay'",
+    "test:api": "cd api && yarn test",
+    "test:app": "cd app && yarn test",
     "postinstall": "concurrently --names 'BACKEND,FRONTEND' 'cd api && yarn' 'cd app && yarn'"
   },
   "devDependencies": {

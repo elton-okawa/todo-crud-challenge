@@ -24,3 +24,13 @@ export class EditTodoParams {
   @IsBoolean()
   completed?: boolean;
 }
+
+export class CreateTodoParams {
+  @MinLength(3)
+  @MaxLength(50)
+  name!: string;
+
+  @MinLength(3)
+  @MaxLength(300)
+  description!: string;
+}

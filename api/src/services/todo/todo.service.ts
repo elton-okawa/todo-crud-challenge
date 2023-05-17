@@ -1,12 +1,14 @@
 import { todoRepository } from 'data';
 
 import { validate } from 'helpers';
-import { EditTodoParams } from './todo.types';
+import { CreateTodoParams, EditTodoParams } from './todo.types';
 
 const ID_REGEX = /[0-9a-fA-F]{24}/;
 
-export async function createTodo(name: string, description: string) {
-  const entity = await todoRepository.createTodo({ name, description });
+export async function createTodo(params: CreateTodoParams) {
+  await validate(params);
+
+  const entity = await todoRepository.createTodo(params);
   return entity;
 }
 

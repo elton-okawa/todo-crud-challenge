@@ -2,6 +2,7 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "meta.relay"
+    "meta.relay",
+    "github.vscode-github-actions"
   ]
 }

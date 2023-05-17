@@ -1,7 +1,7 @@
 import type { MutationResolvers, QueryResolvers } from '__generated__/graphql';
 import { plainToInstance } from 'helpers';
 
-import { todoService, EditTodoParams } from 'services/index';
+import { todoService, EditTodoParams, CreateTodoParams } from 'services/index';
 
 export const Query: QueryResolvers = {
   todos: async () => {
@@ -16,7 +16,8 @@ export const Query: QueryResolvers = {
 
 export const Mutation: MutationResolvers = {
   addTodo: async (_, args) => {
-    const todo = await todoService.createTodo(args.name, args.description);
+    const params = plainToInstance(CreateTodoParams, args);
+    const todo = await todoService.createTodo(params);
     return { todoEdge: { node: todo } };
   },
   editTodo: (_, args) => {

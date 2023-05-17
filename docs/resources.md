@@ -7,3 +7,4 @@ List of useful resources:
   - avoid CORS when developing api and app
 - [Do I really need Mongoose nowadays?](https://www.mongodb.com/developer/languages/javascript/mongoose-versus-nodejs-driver/)
   - Official article from 2021 says that nowadays, MongoDB driver supports the same features as Mongoose
+- [GitHub Actions workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
