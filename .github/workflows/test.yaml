@@ -1,0 +1,44 @@
+name: test
+run-name: ${{ github.actor }} is testing
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+jobs:
+  test-api:
+    env:
+      CI: true
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo
+        ports:
+          - 27018:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admin
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installing dependencies
+        run: yarn --frozen-lockfile
+      - name: Running api tests
+        run: yarn test
+  test-app:
+    env:
+      CI: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installing dependencies
+        run: yarn --frozen-lockfile
+      - name: Running app tests
+        run: yarn test
