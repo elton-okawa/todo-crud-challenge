@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import * as server from './server';
+import { Server } from './server';
 
 if (!process.env.DB_CONN_STRING || !process.env.DB_NAME) {
   console.error(
@@ -12,9 +12,10 @@ if (!process.env.DB_CONN_STRING || !process.env.DB_NAME) {
 }
 
 (async function () {
-  await server.start({
+  const server = new Server({
     dbUrl: process.env.DB_CONN_STRING ?? '',
     dbName: process.env.DB_NAME ?? '',
     slow: true,
   });
+  await server.start();
 })();
