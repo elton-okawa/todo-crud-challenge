@@ -1,4 +1,7 @@
 import * as commons from '../commons';
+import { Server } from '../../src/server';
+import { TodoEntity } from 'data';
+import * as mongoDB from 'mongodb';
 
 const mutation = `
   mutation CreateTodo($name: String!, $description: String!) {
@@ -16,12 +19,21 @@ const mutation = `
 `;
 
 describe('AddTodo Mutation', () => {
+  let server: Server;
+  let todoCollection: mongoDB.Collection<TodoEntity>;
+
   beforeAll(async () => {
-    await commons.startTestServer();
+    server = new Server(commons.testServerParams);
+    await server.start();
+    todoCollection = server.database.collections.todo;
   });
 
   afterAll(async () => {
-    await commons.stopDevServer();
+    await server.stop();
+  });
+
+  beforeEach(async () => {
+    await server.clearDb();
   });
 
   it('should create todo correctly', async () => {
@@ -34,15 +46,27 @@ describe('AddTodo Mutation', () => {
       variables: variables,
     });
 
+    const expectedTodo = {
+      ...variables,
+      completed: false,
+    };
+
     expect(hasErrors).toBe(false);
     expect(data.addTodo).toStrictEqual({
       todoEdge: {
         node: {
-          ...variables,
+          ...expectedTodo,
           id: expect.any(String),
-          completed: false,
         },
       },
     });
+
+    const objectId = new mongoDB.ObjectId(data.addTodo.todoEdge.node.id);
+    const saved = await todoCollection.findOne({
+      _id: objectId,
+    });
+
+    expect(saved).not.toBeNull();
+    expect(saved).toStrictEqual({ ...expectedTodo, _id: objectId });
   });
 });

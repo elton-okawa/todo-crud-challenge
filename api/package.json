@@ -11,7 +11,7 @@
     "codegen:types": "graphql-codegen --config codegen.ts",
     "codegen": "yarn codegen:schema && yarn codegen:types",
     "postinstall": "yarn codegen",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.3.1",
