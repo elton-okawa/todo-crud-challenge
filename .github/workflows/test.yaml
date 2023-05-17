@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: '16'
           cache: yarn
+          cache-dependency-path: api/yarn.lock
       - name: Installing dependencies
         working-directory: ./api
         run: yarn --frozen-lockfile
@@ -43,6 +44,7 @@ jobs:
         with:
           node-version: '16'
           cache: yarn
+          cache-dependency-path: app/yarn.lock
       - name: Installing dependencies
         working-directory: ./app
         run: yarn --frozen-lockfile
