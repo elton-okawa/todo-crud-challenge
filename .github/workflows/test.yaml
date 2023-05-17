@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: '16'
           cache: yarn
+      - name: Go to api folder
+        run: cd api
       - name: Installing dependencies
         run: yarn --frozen-lockfile
       - name: Running api tests
@@ -38,6 +40,8 @@ jobs:
         with:
           node-version: '16'
           cache: yarn
+      - name: Go to app folder
+        run: cd app
       - name: Installing dependencies
         run: yarn --frozen-lockfile
       - name: Running app tests
