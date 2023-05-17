@@ -4,6 +4,6 @@ import path from 'path';
 import { printSchemaWithDirectives } from '@graphql-tools/utils';
 
 fs.writeFileSync(
-  path.join(__dirname, '__generated__', 'schema.graphql'),
+  path.resolve(path.join('src', '__generated__', 'schema.graphql')),
   printSchemaWithDirectives(schema)
 );
