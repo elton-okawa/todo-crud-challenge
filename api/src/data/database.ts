@@ -5,9 +5,12 @@ export const collections: {
   todo: mongoDB.Collection<TodoEntity>;
 } = {} as any;
 
+let client: mongoDB.MongoClient;
+
 export async function connect(url: string, databaseName: string) {
-  const client: mongoDB.MongoClient = new mongoDB.MongoClient(url);
+  client = new mongoDB.MongoClient(url);
   await client.connect();
+
   const db: mongoDB.Db = client.db(databaseName);
 
   collections.todo = db.collection<TodoEntity>('todo');
@@ -19,4 +22,8 @@ export async function connect(url: string, databaseName: string) {
       (collection) => collection.collectionName
     )}`
   );
+}
+
+export function disconnect() {
+  return client.close();
 }
