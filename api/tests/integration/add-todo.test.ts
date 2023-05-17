@@ -1,11 +1,10 @@
 import * as commons from '../commons';
-import request from 'supertest';
 
 const mutation = `
-  mutation addTodo($name: String!, $description: String!) {
+  mutation CreateTodo($name: String!, $description: String!) {
     addTodo(name: $name, description: $description) {
       todoEdge {
-        node: {
+        node {
           id
           name
           description
@@ -15,14 +14,6 @@ const mutation = `
     }
   }
 `;
-
-const hello = {
-  query: `
-  query hello {
-    hello
-  }
-`,
-};
 
 describe('AddTodo Mutation', () => {
   beforeAll(async () => {
@@ -34,10 +25,24 @@ describe('AddTodo Mutation', () => {
   });
 
   it('should create todo correctly', async () => {
-    const response = await request('http://localhost:4000')
-      .post('/graphql')
-      .send(hello);
+    const variables = {
+      name: 'test',
+      description: 'test description',
+    };
+    const { data, hasErrors } = await commons.graphqlRequest({
+      query: mutation,
+      variables: variables,
+    });
 
-    console.log(response.body);
+    expect(hasErrors).toBe(false);
+    expect(data.addTodo).toStrictEqual({
+      todoEdge: {
+        node: {
+          ...variables,
+          id: expect.any(String),
+          completed: false,
+        },
+      },
+    });
   });
 });
