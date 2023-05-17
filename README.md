@@ -43,6 +43,27 @@ Watch changes on both backend and frontend:
 yarn start:dev
 ```
 
+### Testing
+
+Start local mongodb for tests:
+
+```
+./up-test.sh
+```
+
+Run server or frontend tests:
+
+```
+yarn test:api
+yarn test:app
+```
+
+In order to stop local mongodb, run:
+
+```
+./down-test.sh
+```
+
 ## Check it out
 
 - [Improvements](./docs/improvements.md)
