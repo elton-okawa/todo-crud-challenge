@@ -15,9 +15,9 @@ RUN yarn build
 WORKDIR /
 
 FROM node:gallium-alpine
-RUN mkdir -p ./todo/public
+RUN mkdir -p ./todo/build/public
 COPY --from=builder /api ./todo
-COPY --from=builder /app/build ./todo/public
+COPY --from=builder /app/build ./todo/build/public
 WORKDIR ./todo
 EXPOSE 4000
 CMD yarn start
