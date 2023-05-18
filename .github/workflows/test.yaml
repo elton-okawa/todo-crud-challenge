@@ -2,6 +2,7 @@ name: test
 run-name: ${{ github.actor }} is testing
 
 on:
+  workflow_call:
   pull_request:
     branches: [main]
 jobs:
