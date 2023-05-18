@@ -20,6 +20,9 @@ export class Database {
   constructor(private params: DatabaseParams) {}
 
   async connect() {
+    console.log(
+      `Connecting to '${this.params.url}' in db '${this.params.name}'`
+    );
     this.client = new mongoDB.MongoClient(this.params.url);
     await this.client.connect();
 
