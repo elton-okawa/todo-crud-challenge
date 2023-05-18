@@ -12,8 +12,7 @@ const fetchFn: FetchFunction = async (request, variables) => {
   const resp = await fetch(HTTP_ENDPOINT, {
     method: 'POST',
     headers: {
-      Accept:
-        'application/graphql-response+json; charset=utf-8, application/json; charset=utf-8',
+      Accept: '*/*',
       'Content-Type': 'application/json',
       // <-- Additional headers like 'Authorization' would go here
     },

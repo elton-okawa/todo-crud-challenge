@@ -1,10 +1,11 @@
 import express from 'express';
 import { schema } from './schemas';
-import { graphqlHTTP } from 'express-graphql';
 import { Database } from './data/database';
 import expressPlayground from 'graphql-playground-middleware-express';
 import { sleepMiddleware } from 'middlewares';
 import { Server as HttpServer } from 'http';
+import path from 'path';
+import { createHandler } from 'graphql-http/lib/use/express';
 
 const PORT = 4000;
 const GRAPH_QL_ENDPOINT = '/graphql';
@@ -49,10 +50,19 @@ export class Server {
       app.use(sleepMiddleware);
     }
 
-    app.use(
-      '/graphql',
-      graphqlHTTP({
-        schema: schema,
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.get('/', function (req, res) {
+      res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    });
+
+    app.all(
+      this.graphqlEndpoint,
+      createHandler({
+        schema,
+        formatError: (err) => {
+          console.error(err);
+          return err;
+        },
       })
     );
 

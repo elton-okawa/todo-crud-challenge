@@ -48,7 +48,7 @@ yarn start:dev
 Start local mongodb for tests:
 
 ```
-./up-test.sh
+./scripts/test-up.sh
 ```
 
 Run server or frontend tests:
@@ -61,7 +61,22 @@ yarn test:app
 In order to stop local mongodb, run:
 
 ```
-./down-test.sh
+./scripts/test-down.sh
+```
+
+### Building and running dockernize server
+
+Starting:
+
+```
+docker build -t todo .
+./scripts/local-up.sh
+```
+
+Stopping:
+
+```
+./scripts/local-down.sh
 ```
 
 ## Check it out

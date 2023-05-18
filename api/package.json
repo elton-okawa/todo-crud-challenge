@@ -11,7 +11,9 @@
     "codegen:types": "graphql-codegen --config codegen.ts",
     "codegen": "yarn codegen:schema && yarn codegen:types",
     "postinstall": "yarn codegen",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "build": "tsc && tsc-alias && copyfiles -u 1 src/schemas/**/*.graphql build",
+    "start": "node build/index.js"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.3.1",
@@ -23,6 +25,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.59.5",
     "@typescript-eslint/parser": "^5.59.5",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "jest": "^29.5.0",
@@ -31,6 +34,7 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
   },
@@ -43,8 +47,8 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-graphql": "^0.12.0",
     "graphql": "^16.6.0",
+    "graphql-http": "^1.18.0",
     "graphql-playground-middleware-express": "^1.7.23",
     "mongodb": "^5.5.0",
     "reflect-metadata": "^0.1.13"

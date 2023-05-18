@@ -10,7 +10,7 @@ const typesArray = loadFilesSync(
 const typeDefs = mergeTypeDefs(typesArray);
 
 const resolversArray = loadFilesSync(
-  path.join(__dirname, '**', '*.resolvers.ts')
+  path.join(__dirname, '**', '*.resolvers.*')
 );
 const resolvers = mergeResolvers(resolversArray);
 
