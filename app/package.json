@@ -21,7 +21,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "build": "relay-compiler --validate && react-scripts build",
+    "build": "relay-compiler && react-scripts build",
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx .",
