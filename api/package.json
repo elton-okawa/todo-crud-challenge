@@ -12,7 +12,7 @@
     "codegen": "yarn codegen:schema && yarn codegen:types",
     "postinstall": "yarn codegen",
     "test": "NODE_ENV=test jest",
-    "build": "tsc && tsc-alias && copyfiles -f src/__generated__/*.graphql build/__generated__",
+    "build": "tsc && tsc-alias && copyfiles -u 1 src/schemas/**/*.graphql build",
     "start": "node build/index.js"
   },
   "devDependencies": {
