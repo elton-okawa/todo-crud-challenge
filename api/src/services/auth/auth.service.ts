@@ -1,9 +1,17 @@
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+
+const TOKEN_SECRET = process.env.TOKEN_SECRET ?? '';
+if (!TOKEN_SECRET) {
+  console.error(`Environment variable 'TOKEN_SECRET' must be defined`);
+  process.exit(1);
+}
 
 // Node.js docs states that at salt must be random and at least 16 bytes long
 // https://nodejs.org/api/crypto.html#cryptoscryptpassword-salt-keylen-options-callback
 const SALT_LENGTH = 32;
 const KEY_LENGTH = 64;
+const TOKEN_EXPIRATION = '1h';
 
 // Node.js also recommends to .normalize given password strings because some Unicode characters
 // can be represented in multiple ways
@@ -41,4 +49,32 @@ export function comparePassword(
       }
     });
   });
+}
+
+export function generateToken(id: string, username: string) {
+  return jwt.sign(
+    {
+      id,
+    },
+    TOKEN_SECRET,
+    {
+      expiresIn: TOKEN_EXPIRATION,
+      issuer: 'server',
+      subject: username,
+      audience: 'user',
+    }
+  );
+}
+
+export interface JWTPayload {
+  iss: string;
+  sub: string;
+  aud: string;
+  iat: number;
+  exp: number;
+  id: string;
+}
+
+export function validateToken(token: string) {
+  return jwt.verify(token, TOKEN_SECRET) as JWTPayload;
 }

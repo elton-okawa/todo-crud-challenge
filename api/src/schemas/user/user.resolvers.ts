@@ -4,7 +4,7 @@ import type {
   UserResolvers,
 } from '__generated__/graphql';
 import { plainToInstance } from 'helpers';
-import { SignInParams, todoService, userService } from 'services/index';
+import { LoginParams, SignInParams, todoService, userService } from 'services';
 
 export const Query: QueryResolvers = {
   me: () => ({ id: 'no-id' }),
@@ -14,6 +14,10 @@ export const Mutation: MutationResolvers = {
   signIn: (_, args) => {
     const params = plainToInstance(SignInParams, args.input);
     return userService.signIn(params);
+  },
+  login: (_, args) => {
+    const params = plainToInstance(LoginParams, args.input);
+    return userService.login(params);
   },
 };
 

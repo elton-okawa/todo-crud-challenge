@@ -1,10 +1,17 @@
 import { validate } from 'helpers';
-import { SignInParams } from './user.types';
+import { LoginParams, SignInParams } from './user.types';
 import { userRepository } from 'data';
 import { authService } from 'services/auth';
 
-export function getMe(id: string) {
-  return { id };
+export async function getMe(token: string) {
+  const data = authService.validateToken(token);
+  const user = await userRepository.getUserById(data.id);
+
+  if (!user) {
+    throw new Error(`User from token with id '${data.id}' not found`);
+  }
+
+  return user;
 }
 
 export async function signIn(params: SignInParams) {
@@ -22,4 +29,24 @@ export async function signIn(params: SignInParams) {
     passwordHash: hash,
     salt: salt,
   });
+}
+
+export async function login(params: LoginParams) {
+  await validate(params);
+
+  const user = await userRepository.getUserByUsername(params.username);
+  if (!user) {
+    throw new Error('Invalid username or password');
+  }
+
+  const match = await authService.comparePassword(
+    user.passwordHash,
+    user.salt,
+    params.password
+  );
+  if (!match) {
+    throw new Error('Invalid username or password');
+  }
+
+  return authService.generateToken(user.id, user.username);
 }

@@ -19,3 +19,11 @@ export class SignInParams {
   @MinLength(5)
   password!: string;
 }
+
+export class LoginParams {
+  @IsDefined()
+  username!: string;
+
+  @IsDefined()
+  password!: string;
+}

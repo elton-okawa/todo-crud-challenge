@@ -4,9 +4,9 @@ import { Entity } from 'data';
 export class UserEntity extends Entity {
   username!: string;
 
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   passwordHash!: string;
 
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   salt!: string;
 }

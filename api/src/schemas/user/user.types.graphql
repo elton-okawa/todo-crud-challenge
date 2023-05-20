@@ -4,9 +4,15 @@ type Query {
 
 type Mutation {
   signIn(input: SignInMutationInput!): User!
+  login(input: LoginMutationInput!): String!
 }
 
 input SignInMutationInput {
+  username: String!
+  password: String!
+}
+
+input LoginMutationInput {
   username: String!
   password: String!
 }
