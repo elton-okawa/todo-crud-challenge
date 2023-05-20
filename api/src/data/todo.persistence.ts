@@ -1,5 +1,5 @@
 import { TodoEntity } from './todo.entity';
-import { collections } from './database';
+import { collections } from './shared/database';
 import { plainToInstance } from 'helpers';
 import { ObjectId } from 'mongodb';
 

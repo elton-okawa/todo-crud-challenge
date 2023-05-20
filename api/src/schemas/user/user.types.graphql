@@ -2,6 +2,15 @@ type Query {
   me: User
 }
 
+type Mutation {
+  signIn(input: SignInMutationInput!): User!
+}
+
+input SignInMutationInput {
+  username: String!
+  password: String!
+}
+
 type User implements Node {
   id: ID!
   todos(first: Int): TodoConnection
