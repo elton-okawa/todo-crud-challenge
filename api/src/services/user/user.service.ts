@@ -1,9 +1,19 @@
 import { validate } from 'helpers';
 import { LoginParams, SignInParams } from './user.types';
-import { userRepository } from 'data';
+import { UserEntity, userRepository } from 'data';
 import { authService } from 'services/auth';
+import { UnauthorizedError } from 'services/errors';
+import { UnauthorizedCode } from '__generated__/graphql';
 
-export async function getMe(token: string) {
+export function getMe(user: UserEntity | null) {
+  if (!user) {
+    throw new UnauthorizedError('Unauthorized', UnauthorizedCode.MissingToken);
+  }
+
+  return user;
+}
+
+export async function getAuthenticatedUser(token: string) {
   const data = authService.validateToken(token);
   const user = await userRepository.getUserById(data.id);
 

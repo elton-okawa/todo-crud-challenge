@@ -6,6 +6,8 @@ import { sleepMiddleware } from 'middlewares';
 import { Server as HttpServer } from 'http';
 import path from 'path';
 import { createHandler } from 'graphql-http/lib/use/express';
+import { UnauthorizedError, userService } from 'services';
+import { GraphQLError } from 'graphql';
 
 const PORT = 4000;
 const GRAPH_QL_ENDPOINT = '/graphql';
@@ -55,16 +57,7 @@ export class Server {
       res.sendFile(path.join(__dirname, 'public', 'index.html'));
     });
 
-    app.all(
-      this.graphqlEndpoint,
-      createHandler({
-        schema,
-        formatError: (err) => {
-          console.error(err);
-          return err;
-        },
-      })
-    );
+    app.all(this.graphqlEndpoint, this.createGraphQLHandler());
 
     // In order to avoid exposing our apis, we could check current environment and add or not. e.g.
     // if (NODE_ENV === 'development')
@@ -100,5 +93,35 @@ export class Server {
       console.error('Database connection error', error);
       process.exit(1);
     }
+  }
+
+  private createGraphQLHandler() {
+    return createHandler({
+      schema,
+      formatError: (error) => {
+        console.error(error);
+        return error;
+      },
+      context: async (req) => {
+        // TODO typing from handler is strange, even official recipe tells you to access header directly
+        // https://github.com/graphql/graphql-http#auth
+        const token =
+          (req.headers as Record<string, any>).authorization?.replace(
+            'Bearer ',
+            ''
+          ) ?? '';
+
+        if (!token) {
+          return { user: null };
+        }
+
+        try {
+          const user = await userService.getAuthenticatedUser(token);
+          return { user };
+        } catch (error) {
+          return { error };
+        }
+      },
+    });
   }
 }

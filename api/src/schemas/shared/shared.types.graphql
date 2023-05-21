@@ -1,3 +1,14 @@
 interface Node {
   id: ID!
 }
+
+type UnauthorizedError {
+  message: String!
+  code: UnauthorizedCode!
+}
+
+enum UnauthorizedCode {
+  MISSING_TOKEN
+  TOKEN_EXPIRED
+  INVALID_TOKEN
+}

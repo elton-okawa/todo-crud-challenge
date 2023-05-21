@@ -1,5 +1,7 @@
+import { UnauthorizedCode } from '__generated__/graphql';
 import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import { UnauthorizedError } from 'services/errors';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET ?? '';
 if (!TOKEN_SECRET) {
@@ -76,5 +78,16 @@ export interface JWTPayload {
 }
 
 export function validateToken(token: string) {
-  return jwt.verify(token, TOKEN_SECRET) as JWTPayload;
+  try {
+    return jwt.verify(token, TOKEN_SECRET) as JWTPayload;
+  } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      throw new UnauthorizedError(error.message, UnauthorizedCode.TokenExpired);
+    } else {
+      throw new UnauthorizedError(
+        (error as Error).message,
+        UnauthorizedCode.InvalidToken
+      );
+    }
+  }
 }

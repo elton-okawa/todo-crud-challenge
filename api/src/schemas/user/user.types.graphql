@@ -1,11 +1,13 @@
 type Query {
-  me: User
+  me: UserResult!
 }
 
 type Mutation {
   signIn(input: SignInMutationInput!): User!
   login(input: LoginMutationInput!): String!
 }
+
+union UserResult = User | UnauthorizedError
 
 input SignInMutationInput {
   username: String!
