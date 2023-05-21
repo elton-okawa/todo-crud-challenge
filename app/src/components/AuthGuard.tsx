@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
-import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 
 import graphql from 'babel-plugin-relay/macro';
 import { useRefetchableFragment } from 'react-relay';
 import { AuthGuardFragment$key } from './__generated__/AuthGuardFragment.graphql';
-import { Button, Result } from 'antd';
 import { AuthGuardRefetchQuery } from './__generated__/AuthGuardRefetchQuery.graphql';
+import { Unauthorized } from './Unauthorized';
 
 const AuthGuardFragment = graphql`
   fragment AuthGuardFragment on Viewer
@@ -32,7 +32,6 @@ export function AuthGuard({
     AuthGuardFragment$key
   >(AuthGuardFragment, userResult);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const loggedIn = !!data?.me;
   const isPublicRoute = !!publicRoutes.find(
@@ -44,18 +43,7 @@ export function AuthGuard({
   };
 
   if (!isPublicRoute && !loggedIn) {
-    return (
-      <Result
-        title="Unauthorized"
-        status="403" // TODO there is no 401, I'll reuse the 403 icon
-        subTitle="You must be authenticated to access this page."
-        extra={
-          <Button type="primary" onClick={() => navigate('./login')}>
-            Login
-          </Button>
-        }
-      />
-    );
+    return <Unauthorized />;
   }
 
   return <>{renderAllowed(refetch)}</>;

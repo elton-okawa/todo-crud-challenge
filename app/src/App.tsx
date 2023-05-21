@@ -19,7 +19,7 @@ const AppQuery = graphql`
 `;
 
 const initialQuery = loadQuery<AppQueryType>(RelayEnvironment, AppQuery, {});
-const PUBLIC_ROUTES = ['/login', '/signup'];
+const PUBLIC_ROUTES = ['/', '/signup'];
 
 function App() {
   const {

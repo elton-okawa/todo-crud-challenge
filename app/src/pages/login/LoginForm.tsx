@@ -27,7 +27,7 @@ export function LoginForm() {
     message.success('Logged in successfully!');
     localStorage.setItem(LocalStorage.TOKEN, response.login);
     refresh();
-    navigate('/');
+    navigate('/todos');
   };
 
   // TODO handle error better
