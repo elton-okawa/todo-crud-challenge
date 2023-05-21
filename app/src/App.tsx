@@ -19,6 +19,7 @@ const AppQuery = graphql`
 `;
 
 const initialQuery = loadQuery<AppQueryType>(RelayEnvironment, AppQuery, {});
+const PUBLIC_ROUTES = ['/login', '/signup'];
 
 function App() {
   const {
@@ -54,7 +55,7 @@ function App() {
               flexGrow: 1,
             }}
           >
-            <AuthGuard userResult={user.me}>
+            <AuthGuard publicRoutes={PUBLIC_ROUTES} userResult={user.me}>
               <Outlet />
             </AuthGuard>
           </Content>

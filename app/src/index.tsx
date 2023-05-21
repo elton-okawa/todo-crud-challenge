@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { LoadingIndicator, NotFound } from './components';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { Login, Todo } from './pages';
+import { Login, Signup, Todo } from './pages';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <Signup />,
       },
     ],
   },

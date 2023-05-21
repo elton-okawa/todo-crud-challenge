@@ -14,14 +14,17 @@ const AuthGuardFragment = graphql`
   }
 `;
 
-const publicRoutes = ['/login'];
-
 export interface AuthGuardProps {
+  publicRoutes: string[];
   children: ReactNode;
   userResult: AuthGuardFragment$key;
 }
 
-export function AuthGuard({ children, userResult }: AuthGuardProps) {
+export function AuthGuard({
+  children,
+  publicRoutes,
+  userResult,
+}: AuthGuardProps) {
   const user = useFragment(AuthGuardFragment, userResult);
   const location = useLocation();
   const navigate = useNavigate();
