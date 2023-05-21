@@ -1,14 +1,16 @@
 import { ReactNode } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 
 import graphql from 'babel-plugin-relay/macro';
-import { useFragment } from 'react-relay';
+import { useRefetchableFragment } from 'react-relay';
 import { AuthGuardFragment$key } from './__generated__/AuthGuardFragment.graphql';
 import { Button, Result } from 'antd';
+import { AuthGuardRefetchQuery } from './__generated__/AuthGuardRefetchQuery.graphql';
 
 const AuthGuardFragment = graphql`
-  fragment AuthGuardFragment on UserResult {
-    ... on User {
+  fragment AuthGuardFragment on Viewer
+  @refetchable(queryName: "AuthGuardRefetchQuery") {
+    me {
       id
     }
   }
@@ -16,23 +18,30 @@ const AuthGuardFragment = graphql`
 
 export interface AuthGuardProps {
   publicRoutes: string[];
-  children: ReactNode;
   userResult: AuthGuardFragment$key;
+  renderAllowed: (refresh: () => void) => ReactNode;
 }
 
 export function AuthGuard({
-  children,
+  renderAllowed,
   publicRoutes,
   userResult,
 }: AuthGuardProps) {
-  const user = useFragment(AuthGuardFragment, userResult);
+  const [data, refetchFragment] = useRefetchableFragment<
+    AuthGuardRefetchQuery,
+    AuthGuardFragment$key
+  >(AuthGuardFragment, userResult);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const loggedIn = !!user?.id;
+  const loggedIn = !!data?.me;
   const isPublicRoute = !!publicRoutes.find(
     (route) => route === location.pathname
   );
+
+  const refetch = () => {
+    refetchFragment({}, { fetchPolicy: 'network-only' });
+  };
 
   if (!isPublicRoute && !loggedIn) {
     return (
@@ -49,5 +58,13 @@ export function AuthGuard({
     );
   }
 
-  return <>{children}</>;
+  return <>{renderAllowed(refetch)}</>;
+}
+
+type RouterContext = {
+  refresh: () => void;
+};
+
+export function useAuthUserRefresh() {
+  return useOutletContext<RouterContext>();
 }

@@ -12,7 +12,7 @@ const { Text } = Typography;
 
 const AppQuery = graphql`
   query AppQuery {
-    me {
+    viewer {
       ...AuthGuardFragment
     }
   }
@@ -26,7 +26,7 @@ function App() {
     token: { colorTextLightSolid },
   } = theme.useToken();
   const [messageApi, contextHolder] = message.useMessage();
-  const user = usePreloadedQuery<AppQueryType>(AppQuery, initialQuery);
+  const data = usePreloadedQuery<AppQueryType>(AppQuery, initialQuery);
 
   return (
     <>
@@ -55,9 +55,11 @@ function App() {
               flexGrow: 1,
             }}
           >
-            <AuthGuard publicRoutes={PUBLIC_ROUTES} userResult={user.me}>
-              <Outlet />
-            </AuthGuard>
+            <AuthGuard
+              publicRoutes={PUBLIC_ROUTES}
+              userResult={data.viewer}
+              renderAllowed={(refresh) => <Outlet context={{ refresh }} />}
+            />
           </Content>
           <Footer style={{ textAlign: 'center' }}>TODO Manager ©2023</Footer>
         </Layout>

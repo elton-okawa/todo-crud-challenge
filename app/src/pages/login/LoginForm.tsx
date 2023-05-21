@@ -8,6 +8,7 @@ import {
   LoginFormMutation$data,
   LoginFormMutation as LoginFormMutationType,
 } from './__generated__/LoginFormMutation.graphql';
+import { useAuthUserRefresh } from '../../components';
 
 const LoginFormMutation = graphql`
   mutation LoginFormMutation($input: LoginMutationInput!) {
@@ -20,10 +21,12 @@ export function LoginForm() {
     useMutation<LoginFormMutationType>(LoginFormMutation);
   const navigate = useNavigate();
   const message = useMessage();
+  const { refresh } = useAuthUserRefresh();
 
   const onCompleted = (response: LoginFormMutation$data) => {
-    localStorage.setItem(LocalStorage.TOKEN, response.login);
     message.success('Logged in successfully!');
+    localStorage.setItem(LocalStorage.TOKEN, response.login);
+    refresh();
     navigate('/');
   };
 

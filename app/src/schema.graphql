@@ -37,7 +37,7 @@ type Query {
   hello(name: String): String
   todos: TodoConnection
   getTodo(id: ID!): Todo
-  me: UserResult!
+  viewer: Viewer!
 }
 
 input SignupMutationInput {
@@ -78,5 +78,7 @@ type User implements Node {
   todos(first: Int): TodoConnection
 }
 
-union UserResult = User | UnauthorizedError
+type Viewer {
+  me: User
+}
 

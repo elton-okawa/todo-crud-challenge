@@ -1,13 +1,11 @@
 type Query {
-  me: UserResult!
+  viewer: Viewer!
 }
 
 type Mutation {
   signup(input: SignupMutationInput!): User!
   login(input: LoginMutationInput!): String!
 }
-
-union UserResult = User | UnauthorizedError
 
 input SignupMutationInput {
   username: String!
@@ -22,4 +20,8 @@ input LoginMutationInput {
 type User implements Node {
   id: ID!
   todos(first: Int): TodoConnection
+}
+
+type Viewer {
+  me: User
 }

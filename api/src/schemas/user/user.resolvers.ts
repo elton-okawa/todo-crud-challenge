@@ -1,36 +1,15 @@
 import {
   MutationResolvers,
   QueryResolvers,
-  UnauthorizedCode,
   UserResolvers,
-  UserResultResolvers,
+  ViewerResolvers,
 } from '__generated__/graphql';
 import { plainToInstance } from 'helpers';
-import {
-  LoginParams,
-  SignupParams,
-  UnauthorizedError,
-  todoService,
-  userService,
-} from 'services';
+import { LoginParams, SignupParams, todoService, userService } from 'services';
 import { GraphQLContext } from 'types';
 
 export const Query: QueryResolvers<GraphQLContext> = {
-  me: (_parent, _args, context) => {
-    if (context.error) {
-      return { message: context.error.message, code: context.error.code };
-    }
-
-    try {
-      return userService.getMe(context.user);
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        return { message: error.message, code: error.code };
-      } else {
-        throw error;
-      }
-    }
-  },
+  viewer: () => ({ me: null }),
 };
 
 export const Mutation: MutationResolvers = {
@@ -54,10 +33,6 @@ export const User: UserResolvers = {
   },
 };
 
-export const UserResult: UserResultResolvers = {
-  __resolveType: (obj) => {
-    const asError = obj as UnauthorizedError;
-    if (asError.code && asError.message) return 'UnauthorizedError';
-    else return 'User';
-  },
+export const Viewer: ViewerResolvers = {
+  me: (_parent, _args, context) => userService.getMe(context.user),
 };
