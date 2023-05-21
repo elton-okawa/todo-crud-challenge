@@ -1,5 +1,5 @@
 import { validate } from 'helpers';
-import { LoginParams, SignInParams } from './user.types';
+import { LoginParams, SignupParams } from './user.types';
 import { UserEntity, userRepository } from 'data';
 import { authService } from 'services/auth';
 import { UnauthorizedError } from 'services/errors';
@@ -24,7 +24,7 @@ export async function getAuthenticatedUser(token: string) {
   return user;
 }
 
-export async function signIn(params: SignInParams) {
+export async function signup(params: SignupParams) {
   await validate(params);
 
   const existing = await userRepository.getUserByUsername(params.username);

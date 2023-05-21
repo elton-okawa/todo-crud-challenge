@@ -8,7 +8,7 @@ import {
 import { plainToInstance } from 'helpers';
 import {
   LoginParams,
-  SignInParams,
+  SignupParams,
   UnauthorizedError,
   todoService,
   userService,
@@ -34,9 +34,9 @@ export const Query: QueryResolvers<GraphQLContext> = {
 };
 
 export const Mutation: MutationResolvers = {
-  signIn: (_, args) => {
-    const params = plainToInstance(SignInParams, args.input);
-    return userService.signIn(params);
+  signup: (_, args) => {
+    const params = plainToInstance(SignupParams, args.input);
+    return userService.signup(params);
   },
   login: (_, args) => {
     const params = plainToInstance(LoginParams, args.input);

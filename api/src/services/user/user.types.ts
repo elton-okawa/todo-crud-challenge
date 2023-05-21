@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class SignInParams {
+export class SignupParams {
   @IsDefined()
   @IsString()
   @MinLength(3)
