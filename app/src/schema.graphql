@@ -8,10 +8,17 @@ type AddTodoMutationResponse {
   todoEdge: TodoConnectionEdge!
 }
 
+input LoginMutationInput {
+  username: String!
+  password: String!
+}
+
 type Mutation {
   addTodo(name: String!, description: String!): AddTodoMutationResponse!
   editTodo(id: ID!, name: String, description: String, completed: Boolean): Todo
   deleteTodo(id: ID!): ID
+  signIn(input: SignInMutationInput!): User!
+  login(input: LoginMutationInput!): String!
 }
 
 interface Node {
@@ -30,7 +37,12 @@ type Query {
   hello(name: String): String
   todos: TodoConnection
   getTodo(id: ID!): Todo
-  me: User
+  me: UserResult!
+}
+
+input SignInMutationInput {
+  username: String!
+  password: String!
 }
 
 type Todo implements Node {
@@ -50,8 +62,21 @@ type TodoConnectionEdge {
   cursor: String
 }
 
+enum UnauthorizedCode {
+  MISSING_TOKEN
+  TOKEN_EXPIRED
+  INVALID_TOKEN
+}
+
+type UnauthorizedError {
+  message: String!
+  code: UnauthorizedCode!
+}
+
 type User implements Node {
   id: ID!
   todos(first: Int): TodoConnection
 }
+
+union UserResult = User | UnauthorizedError
 

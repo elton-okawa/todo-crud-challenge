@@ -1,14 +1,31 @@
 import { Layout, Menu, Typography, message, theme } from 'antd';
-import { TodoContainer } from './pages';
 import { MessageContext } from './contexts/MessageContext';
+import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
+import { AuthGuard } from './components';
+import graphql from 'babel-plugin-relay/macro';
+import { loadQuery, usePreloadedQuery } from 'react-relay';
+import { RelayEnvironment } from './RelayEnvironment';
+import { AppQuery as AppQueryType } from './__generated__/AppQuery.graphql';
 const { Header, Content, Footer } = Layout;
 const { Text } = Typography;
+
+const AppQuery = graphql`
+  query AppQuery {
+    me {
+      ...AuthGuardFragment
+    }
+  }
+`;
+
+const initialQuery = loadQuery<AppQueryType>(RelayEnvironment, AppQuery, {});
 
 function App() {
   const {
     token: { colorTextLightSolid },
   } = theme.useToken();
   const [messageApi, contextHolder] = message.useMessage();
+  const user = usePreloadedQuery<AppQueryType>(AppQuery, initialQuery);
 
   return (
     <>
@@ -37,7 +54,9 @@ function App() {
               flexGrow: 1,
             }}
           >
-            <TodoContainer />
+            <AuthGuard userResult={user.me}>
+              <Outlet />
+            </AuthGuard>
           </Content>
           <Footer style={{ textAlign: 'center' }}>TODO Manager ©2023</Footer>
         </Layout>

@@ -5,7 +5,27 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { LoadingIndicator } from './components';
+import { LoadingIndicator, NotFound } from './components';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Login, Todo } from './pages';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: '/todo',
+        element: <Todo />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +34,7 @@ root.render(
   <RelayEnvironmentProvider environment={RelayEnvironment}>
     <React.StrictMode>
       <React.Suspense fallback={<LoadingIndicator fullscreen />}>
-        <App />
+        <RouterProvider router={router} />
       </React.Suspense>
     </React.StrictMode>
   </RelayEnvironmentProvider>

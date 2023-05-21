@@ -13,9 +13,11 @@ import { TodoList } from './TodoList';
 const TodoContainerQuery = graphql`
   query TodoContainerQuery {
     me {
-      id
-      ...TodoListFragment
-      ...CreateTodoFormConnectionParent
+      ... on User {
+        id
+        ...TodoListFragment
+        ...CreateTodoFormConnectionParent
+      }
     }
   }
 `;
