@@ -1,14 +1,29 @@
-import { todoRepository } from 'data';
+import { UserEntity, todoRepository } from 'data';
 
 import { validate } from 'helpers';
 import { CreateTodoParams, EditTodoParams } from './todo.types';
+import { UnauthorizedError } from 'services/errors';
+import { UnauthorizedCode } from '__generated__/graphql';
 
 const ID_REGEX = /[0-9a-fA-F]{24}/;
 
-export async function createTodo(params: CreateTodoParams) {
+export async function createTodo(
+  user: UserEntity | null,
+  params: CreateTodoParams
+) {
   await validate(params);
 
-  const entity = await todoRepository.createTodo(params);
+  if (!user) {
+    throw new UnauthorizedError(
+      'You must be logged in',
+      UnauthorizedCode.TokenExpired
+    );
+  }
+
+  const entity = await todoRepository.createTodo({
+    ...params,
+    userId: user.id,
+  });
   return entity;
 }
 
