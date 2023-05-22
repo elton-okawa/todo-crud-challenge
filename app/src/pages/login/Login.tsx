@@ -1,5 +1,6 @@
 import { Col, Row, theme } from 'antd';
 import { LoginForm } from './LoginForm';
+import { CreateAccountCard } from './CreateAccountCard';
 
 export function Login() {
   const {
@@ -7,25 +8,32 @@ export function Login() {
   } = theme.useToken();
 
   return (
-    <Row
-      justify="center"
-      align="middle"
-      style={{
-        padding: 24,
-        minHeight: 380,
-        height: '100%',
-      }}
-    >
-      <Col
-        span={8}
+    <>
+      <Row
+        justify="center"
+        align="middle"
         style={{
-          background: colorBgContainer,
-          padding: '20px',
-          borderRadius: '10px',
+          marginTop: 30,
+          padding: 24,
+          minHeight: 380,
         }}
       >
-        <LoginForm />
-      </Col>
-    </Row>
+        <Col
+          span={8}
+          style={{
+            background: colorBgContainer,
+            padding: '20px',
+            borderRadius: '10px',
+          }}
+        >
+          <LoginForm />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={4} offset={10}>
+          <CreateAccountCard />
+        </Col>
+      </Row>
+    </>
   );
 }

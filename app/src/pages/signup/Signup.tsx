@@ -10,11 +10,7 @@ export function Signup() {
     <Row
       justify="center"
       align="middle"
-      style={{
-        padding: 24,
-        minHeight: 380,
-        height: '100%',
-      }}
+      style={{ marginTop: 30, padding: 24, minHeight: 380 }}
     >
       <Col
         span={8}
