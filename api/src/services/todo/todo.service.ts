@@ -20,9 +20,20 @@ export async function createTodo(
   return entity;
 }
 
-export async function listTodo() {
-  const results = await todoRepository.listTodo();
-  return results;
+export async function listTodo({
+  user = null,
+  listAll = false,
+}: {
+  user?: UserEntity | null;
+  listAll?: boolean;
+}) {
+  if (listAll) {
+    const results = await todoRepository.listTodo();
+    return results;
+  } else {
+    const authenticated = validateAuthenticatedUser(user);
+    return todoRepository.listTodo(authenticated.id);
+  }
 }
 
 export async function getTodo(id: string) {

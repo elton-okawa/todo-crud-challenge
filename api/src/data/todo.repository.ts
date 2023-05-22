@@ -10,8 +10,10 @@ export async function createTodo(todo: Partial<TodoEntity>) {
   return plainToInstance(TodoEntity, { _id: result.insertedId, ...todo });
 }
 
-export async function listTodo() {
-  const results = await collections.todo.find().toArray();
+export async function listTodo(userId?: string) {
+  const filters = userId ? { userId } : {};
+
+  const results = await collections.todo.find(filters).toArray();
   return plainToInstance(TodoEntity, results);
 }
 

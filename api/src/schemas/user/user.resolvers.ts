@@ -23,9 +23,9 @@ export const Mutation: MutationResolvers = {
   },
 };
 
-export const User: UserResolvers = {
-  todos: async ({ id }) => {
-    const todos = await todoService.listTodo();
+export const User: UserResolvers<GraphQLContext> = {
+  todos: async (_parent, _args, context) => {
+    const todos = await todoService.listTodo({ user: context.user });
 
     return {
       edges: todos.map((value) => ({ node: value })),

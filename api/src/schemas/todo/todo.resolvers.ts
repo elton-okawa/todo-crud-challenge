@@ -6,7 +6,7 @@ import { GraphQLContext } from 'types';
 
 export const Query: QueryResolvers = {
   todos: async () => {
-    const list = await todoService.listTodo();
+    const list = await todoService.listTodo({ listAll: true });
 
     return {
       edges: list.map((value) => ({ node: value })),
