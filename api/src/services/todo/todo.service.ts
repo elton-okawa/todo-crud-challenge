@@ -57,6 +57,7 @@ export async function editTodo(
   return result;
 }
 
-export function deleteTodo(id: string) {
-  return todoRepository.deleteTodo(id);
+export function deleteTodo(user: UserEntity | null, id: string) {
+  const authenticated = validateAuthenticatedUser(user);
+  return todoRepository.deleteTodo(id, authenticated.id);
 }

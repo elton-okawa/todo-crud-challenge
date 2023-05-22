@@ -25,8 +25,8 @@ export const Mutation: MutationResolvers<GraphQLContext> = {
     const params = plainToInstance(EditTodoParams, args);
     return todoService.editTodo(context.user, params);
   },
-  deleteTodo: async (_, args) => {
-    await todoService.deleteTodo(args.id);
+  deleteTodo: async (_, args, context) => {
+    await todoService.deleteTodo(context.user, args.id);
     return args.id;
   },
 };

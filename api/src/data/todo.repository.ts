@@ -35,8 +35,11 @@ export async function editTodo(
   return result.value ? plainToInstance(TodoEntity, result.value) : null;
 }
 
-export async function deleteTodo(id: string) {
-  const result = await collections.todo.deleteOne({ _id: new ObjectId(id) });
+export async function deleteTodo(id: string, userId: string) {
+  const result = await collections.todo.deleteOne({
+    _id: new ObjectId(id),
+    userId,
+  });
 
   return result.deletedCount === 1;
 }
