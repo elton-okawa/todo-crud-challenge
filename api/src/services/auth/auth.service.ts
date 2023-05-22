@@ -1,5 +1,6 @@
 import { UnauthorizedCode } from '__generated__/graphql';
 import crypto from 'crypto';
+import { UserEntity } from 'data';
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { UnauthorizedError } from 'services/errors';
 
@@ -90,4 +91,15 @@ export function validateToken(token: string) {
       );
     }
   }
+}
+
+export function validateAuthenticatedUser(user: UserEntity | null): UserEntity {
+  if (!user) {
+    throw new UnauthorizedError(
+      'You must be logged in',
+      UnauthorizedCode.TokenExpired
+    );
+  }
+
+  return user;
 }

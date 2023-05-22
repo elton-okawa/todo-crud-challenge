@@ -21,9 +21,13 @@ export async function getTodo(id: string) {
   return result ? plainToInstance(TodoEntity, result) : null;
 }
 
-export async function editTodo(id: string, params: Partial<TodoEntity>) {
+export async function editTodo(
+  id: string,
+  userId: string,
+  params: Partial<TodoEntity>
+) {
   const result = await collections.todo.findOneAndUpdate(
-    { _id: new ObjectId(id) },
+    { _id: new ObjectId(id), userId },
     { $set: params },
     { returnDocument: 'after' }
   );

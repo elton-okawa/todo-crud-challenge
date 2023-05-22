@@ -2,8 +2,7 @@ import { UserEntity, todoRepository } from 'data';
 
 import { validate } from 'helpers';
 import { CreateTodoParams, EditTodoParams } from './todo.types';
-import { UnauthorizedError } from 'services/errors';
-import { UnauthorizedCode } from '__generated__/graphql';
+import { validateAuthenticatedUser } from 'services/auth/auth.service';
 
 const ID_REGEX = /[0-9a-fA-F]{24}/;
 
@@ -12,17 +11,11 @@ export async function createTodo(
   params: CreateTodoParams
 ) {
   await validate(params);
-
-  if (!user) {
-    throw new UnauthorizedError(
-      'You must be logged in',
-      UnauthorizedCode.TokenExpired
-    );
-  }
+  const authenticated = validateAuthenticatedUser(user);
 
   const entity = await todoRepository.createTodo({
     ...params,
-    userId: user.id,
+    userId: authenticated.id,
   });
   return entity;
 }
@@ -46,13 +39,19 @@ export async function getTodo(id: string) {
   return entity;
 }
 
-export async function editTodo(params: EditTodoParams) {
+export async function editTodo(
+  user: UserEntity | null,
+  params: EditTodoParams
+) {
   await validate(params);
+  const authenticated = validateAuthenticatedUser(user);
   const { id, ...others } = params;
 
-  const result = await todoRepository.editTodo(id, others);
+  const result = await todoRepository.editTodo(id, authenticated.id, others);
   if (!result) {
-    throw new Error(`Todo entity with id '${id}' not found`);
+    throw new Error(
+      `Todo entity with id '${id}' not found for user '${authenticated.id}'`
+    );
   }
 
   return result;
