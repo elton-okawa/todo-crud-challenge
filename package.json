@@ -12,6 +12,7 @@
     "postinstall": "concurrently --names 'BACKEND,FRONTEND' 'cd api && yarn' 'cd app && yarn'"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.1",
     "concurrently": "^8.0.1"
   }
 }

@@ -1,13 +1,19 @@
 import request from 'supertest';
+import { UserEntity, collections } from '../src/data';
+import { authService } from '../src/services';
+import { plainToInstance } from '../src/helpers';
 
-const DB_CONN_STRING = 'mongodb://admin:admin@localhost:27018';
-const DB_NAME = 'test';
-
-export const testServerParams = { dbUrl: DB_CONN_STRING, dbName: DB_NAME };
+export function getTestServerParams() {
+  return {
+    dbUrl: process.env.DB_CONN_STRING ?? '',
+    dbName: process.env.DB_NAME ?? '',
+  };
+}
 
 interface GraphQLRequest {
   query: string;
   variables?: Record<string, any>;
+  token?: string;
 }
 
 interface GraphQLResponse {
@@ -19,11 +25,16 @@ interface GraphQLResponse {
 export async function graphqlRequest(
   requestData: GraphQLRequest
 ): Promise<GraphQLResponse> {
-  const response = await request('http://localhost:4000')
+  const preparedRequest = request('http://localhost:4000')
     .post('/graphql')
     .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json')
-    .send(requestData);
+    .set('Accept', 'application/json');
+
+  if (requestData.token) {
+    preparedRequest.set('Authorization', `Bearer ${requestData.token}`);
+  }
+
+  const response = await preparedRequest.send(requestData);
 
   if (response.error) {
     console.error(response.error.text);
@@ -31,11 +42,28 @@ export async function graphqlRequest(
   }
 
   const data = response.body.data;
-  const errors = response.body.data?.errors ?? [];
+  const errors = response.body.errors ?? [];
 
   return {
     data,
     errors,
     hasErrors: errors.length !== 0,
   };
+}
+
+export async function saveUser(username = 'test', password = 'super-test') {
+  const result = await authService.hashPassword(password);
+  const user = await collections.user.insertOne(
+    plainToInstance(UserEntity, {
+      username,
+      passwordHash: result.hash,
+      salt: result.salt,
+    })
+  );
+
+  return user.insertedId.toString();
+}
+
+export async function getValidToken(userId: string, username = 'test') {
+  return authService.generateToken(userId, username);
 }
