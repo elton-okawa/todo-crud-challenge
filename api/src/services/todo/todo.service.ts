@@ -36,12 +36,14 @@ export async function listTodo({
   }
 }
 
-export async function getTodo(id: string) {
+export async function getTodo(user: UserEntity | null, id: string) {
   if (!ID_REGEX.test(id)) {
     throw new Error(`id must follow regex ${ID_REGEX}`);
   }
 
-  const entity = await todoRepository.getTodo(id);
+  const authenticated = validateAuthenticatedUser(user);
+
+  const entity = await todoRepository.getTodo(id, authenticated.id);
 
   if (!entity) {
     throw new Error(`Todo entity with id '${id}' not found`);

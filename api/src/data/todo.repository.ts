@@ -17,8 +17,11 @@ export async function listTodo(userId?: string) {
   return plainToInstance(TodoEntity, results);
 }
 
-export async function getTodo(id: string) {
-  const result = await collections.todo.findOne({ _id: new ObjectId(id) });
+export async function getTodo(id: string, userId: string) {
+  const result = await collections.todo.findOne({
+    _id: new ObjectId(id),
+    userId,
+  });
 
   return result ? plainToInstance(TodoEntity, result) : null;
 }

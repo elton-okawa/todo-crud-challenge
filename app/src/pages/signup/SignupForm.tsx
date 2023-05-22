@@ -19,7 +19,7 @@ export function SignupForm() {
 
   const onCompleted = () => {
     message.success('User created successfully!');
-    navigate('/login');
+    navigate('/');
   };
 
   // TODO handle error better

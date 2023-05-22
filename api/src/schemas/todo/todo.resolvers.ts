@@ -4,7 +4,7 @@ import { plainToInstance } from 'helpers';
 import { todoService, EditTodoParams, CreateTodoParams } from 'services/index';
 import { GraphQLContext } from 'types';
 
-export const Query: QueryResolvers = {
+export const Query: QueryResolvers<GraphQLContext> = {
   todos: async () => {
     const list = await todoService.listTodo({ listAll: true });
 
@@ -12,7 +12,7 @@ export const Query: QueryResolvers = {
       edges: list.map((value) => ({ node: value })),
     };
   },
-  getTodo: (_, args) => todoService.getTodo(args.id),
+  todo: (_, args, context) => todoService.getTodo(context.user, args.id),
 };
 
 export const Mutation: MutationResolvers<GraphQLContext> = {

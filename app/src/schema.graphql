@@ -36,7 +36,7 @@ type PageInfo {
 type Query {
   hello(name: String): String
   todos: TodoConnection
-  getTodo(id: ID!): Todo
+  todo(id: ID!): Todo
   viewer: Viewer!
 }
 
