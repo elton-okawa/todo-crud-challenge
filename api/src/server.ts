@@ -52,11 +52,6 @@ export class Server {
       app.use(sleepMiddleware);
     }
 
-    app.use(express.static(path.join(__dirname, 'public')));
-    app.get('/', function (req, res) {
-      res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    });
-
     app.all(this.graphqlEndpoint, this.createGraphQLHandler());
 
     // In order to avoid exposing our apis, we could check current environment and add or not. e.g.
@@ -65,6 +60,11 @@ export class Server {
       '/playground',
       expressPlayground({ endpoint: this.graphqlEndpoint })
     );
+
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.get('/*', function (req, res) {
+      res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    });
 
     this.httpServer = app.listen(this.port, () =>
       console.log(
