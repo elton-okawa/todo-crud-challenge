@@ -3,15 +3,28 @@ import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-const typesArray = loadFilesSync(
-  path.join(__dirname, '**', '*.types.graphql'),
-  { recursive: true }
-);
-const typeDefs = mergeTypeDefs(typesArray);
+function getTypeDefs() {
+  const typesArray = loadFilesSync(
+    path.join(__dirname, '**', '*.types.graphql'),
+    { recursive: true }
+  );
+  return mergeTypeDefs(typesArray);
+}
 
-const resolversArray = loadFilesSync(
-  path.join(__dirname, '**', '*.resolvers.*')
-);
-const resolvers = mergeResolvers(resolversArray);
+function getResolvers() {
+  const resolversArray = loadFilesSync(
+    path.join(__dirname, '**', '*.resolvers.*')
+  );
+  return mergeResolvers(resolversArray);
+}
 
-export const schema = makeExecutableSchema({ typeDefs, resolvers });
+export function buildGraphQLSchema() {
+  const typeDefs = getTypeDefs();
+  return makeExecutableSchema({ typeDefs });
+}
+
+export function buildExecutableSchema() {
+  const typeDefs = getTypeDefs();
+  const resolvers = getResolvers();
+  return makeExecutableSchema({ typeDefs, resolvers });
+}

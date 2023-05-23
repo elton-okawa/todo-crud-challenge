@@ -1,5 +1,5 @@
 import express from 'express';
-import { schema } from './schemas';
+import { buildExecutableSchema } from './schemas';
 import { Database } from './data/shared/database';
 import expressPlayground from 'graphql-playground-middleware-express';
 import { sleepMiddleware } from 'middlewares';
@@ -97,7 +97,7 @@ export class Server {
 
   private createGraphQLHandler() {
     return createHandler({
-      schema,
+      schema: buildExecutableSchema(),
       formatError: (error) => {
         console.error(error);
         return error;
