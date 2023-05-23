@@ -1,6 +1,6 @@
 type Query {
   todos: TodoConnection
-  getTodo(id: ID!): Todo
+  todo(id: ID!): Todo
 }
 
 type Mutation {

@@ -1,8 +1,10 @@
 import * as mongoDB from 'mongodb';
-import { TodoEntity } from './todo.entity';
+import { TodoEntity } from '../todo.entity';
+import { UserEntity } from '../user';
 
 export interface Collections {
   todo: mongoDB.Collection<TodoEntity>;
+  user: mongoDB.Collection<UserEntity>;
 }
 
 export let collections = {} as Collections;
@@ -30,6 +32,7 @@ export class Database {
 
     this.collections = {
       todo: this.db.collection<TodoEntity>('todo'),
+      user: this.db.collection<UserEntity>('user'),
     };
     collections = this.collections; // TODO refactor persistence to use this class
 

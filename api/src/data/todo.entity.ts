@@ -1,21 +1,11 @@
-import { Exclude, Expose, Transform } from 'class-transformer';
-import { ObjectId } from 'mongodb';
+import { Entity } from './shared';
 
-export class TodoEntity {
-  // class-transform seems to create a different ObjectId each serialization
-  // https://github.com/typestack/class-transformer/issues/494#issuecomment-712707954
-  @Exclude({ toPlainOnly: true })
-  @Transform(({ obj }) => obj._id)
-  _id!: ObjectId;
-
+export class TodoEntity extends Entity {
   name!: string;
 
   description!: string;
 
   completed = false;
 
-  @Expose()
-  get id(): string {
-    return this._id.toString();
-  }
+  userId!: string;
 }

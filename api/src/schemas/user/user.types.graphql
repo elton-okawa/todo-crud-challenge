@@ -1,8 +1,27 @@
 type Query {
-  me: User
+  viewer: Viewer!
+}
+
+type Mutation {
+  signup(input: SignupMutationInput!): User!
+  login(input: LoginMutationInput!): String!
+}
+
+input SignupMutationInput {
+  username: String!
+  password: String!
+}
+
+input LoginMutationInput {
+  username: String!
+  password: String!
 }
 
 type User implements Node {
   id: ID!
   todos(first: Int): TodoConnection
+}
+
+type Viewer {
+  me: User
 }

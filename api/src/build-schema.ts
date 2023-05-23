@@ -1,4 +1,4 @@
-import { schema } from './schemas';
+import { buildGraphQLSchema } from './schemas';
 import fs from 'fs';
 import path from 'path';
 import { printSchemaWithDirectives } from '@graphql-tools/utils';
@@ -10,5 +10,5 @@ if (!fs.existsSync(folder)) {
 
 fs.writeFileSync(
   path.join(folder, 'schema.graphql'),
-  printSchemaWithDirectives(schema)
+  printSchemaWithDirectives(buildGraphQLSchema())
 );

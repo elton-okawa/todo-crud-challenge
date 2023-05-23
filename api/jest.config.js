@@ -10,4 +10,5 @@ module.exports = {
   roots: ['<rootDir>'],
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  globalSetup: '<rootDir>/tests/index.ts',
 };

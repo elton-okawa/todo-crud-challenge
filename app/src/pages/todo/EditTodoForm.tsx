@@ -2,12 +2,11 @@ import graphql from 'babel-plugin-relay/macro';
 import { useMutation, usePreloadedQuery } from 'react-relay';
 import { EditTodoFormQuery as EditTodoFormQueryType } from './__generated__/EditTodoFormQuery.graphql';
 import { TodoForm } from './TodoForm';
-import { message } from 'antd';
 import { useMessage } from '../../contexts/MessageContext';
 
 export const EditTodoFormQuery = graphql`
   query EditTodoFormQuery($id: ID!) {
-    getTodo(id: $id) {
+    todo(id: $id) {
       id
       name
       description
@@ -41,17 +40,17 @@ export function EditTodoForm({ queryRef, onCancel }: EditTodoFormProps) {
   const messageApi = useMessage();
 
   // TODO handle if not found
-  if (!data.getTodo) {
+  if (!data.todo) {
     return null;
   }
 
   return (
     <TodoForm
-      title={`Edit TODO '${data.getTodo.name}'`}
-      initialValues={data.getTodo}
+      title={`Edit TODO '${data.todo.name}'`}
+      initialValues={data.todo}
       onSubmit={(values) =>
         commitMutation({
-          variables: { id: data.getTodo?.id, ...values },
+          variables: { id: data.todo?.id, ...values },
           onCompleted: () => {
             messageApi.success('Todo edited successfully');
             onCancel();

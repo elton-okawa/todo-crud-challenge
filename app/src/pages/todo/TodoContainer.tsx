@@ -12,10 +12,14 @@ import { TodoList } from './TodoList';
 
 const TodoContainerQuery = graphql`
   query TodoContainerQuery {
-    me {
-      id
-      ...TodoListFragment
-      ...CreateTodoFormConnectionParent
+    viewer {
+      me {
+        ... on User {
+          id
+          ...TodoListFragment
+          ...CreateTodoFormConnectionParent
+        }
+      }
     }
   }
 `;
@@ -40,7 +44,7 @@ export function TodoContainer() {
   };
 
   // TODO handle todo not exist
-  if (!query?.me) {
+  if (!query?.viewer?.me) {
     return null;
   }
 
@@ -64,13 +68,13 @@ export function TodoContainer() {
             />
           </React.Suspense>
         ) : (
-          <CreateTodoForm user={query?.me} />
+          <CreateTodoForm user={query?.viewer?.me} />
         )}
       </Col>
       <Col span={10}>
         <TodoList
           createSelectedHandler={createSelectedHandler}
-          todos={query.me}
+          todos={query.viewer.me}
           selected={selected}
         />
       </Col>

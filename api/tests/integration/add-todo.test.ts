@@ -21,9 +21,11 @@ const mutation = `
 describe('AddTodo Mutation', () => {
   let server: Server;
   let todoCollection: mongoDB.Collection<TodoEntity>;
+  let token: string;
+  let userId: string;
 
   beforeAll(async () => {
-    server = new Server(commons.testServerParams);
+    server = new Server(commons.getTestServerParams());
     await server.start();
     todoCollection = server.database.collections.todo;
   });
@@ -34,6 +36,8 @@ describe('AddTodo Mutation', () => {
 
   beforeEach(async () => {
     await server.clearDb();
+    userId = await commons.saveUser();
+    token = await commons.getValidToken(userId);
   });
 
   it('should create todo correctly', async () => {
@@ -44,6 +48,7 @@ describe('AddTodo Mutation', () => {
     const { data, hasErrors } = await commons.graphqlRequest({
       query: mutation,
       variables: variables,
+      token,
     });
 
     const expectedTodo = {
@@ -67,6 +72,19 @@ describe('AddTodo Mutation', () => {
     });
 
     expect(saved).not.toBeNull();
-    expect(saved).toStrictEqual({ ...expectedTodo, _id: objectId });
+    expect(saved).toStrictEqual({ ...expectedTodo, userId, _id: objectId });
+  });
+
+  it('should return error if user is not authenticated', async () => {
+    const variables = {
+      name: 'test',
+      description: 'test description',
+    };
+    const { hasErrors } = await commons.graphqlRequest({
+      query: mutation,
+      variables: variables,
+    });
+
+    expect(hasErrors).toBe(true);
   });
 });

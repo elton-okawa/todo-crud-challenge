@@ -108,7 +108,7 @@ View [source](https://github.com/BemteviSeguros/jobs/blob/main/Challenge.md)
 - [x] backend automated tests: [Jest](https://jestjs.io/)
 - [ ] frontend automated tests: [react-testing-library](https://testing-library.com/)
 - [x] good design (bonus if using a design system, like [antd](https://ant.design/))
-- [ ] authentication system
+- [x] authentication system
 - [ ] [Storybook](https://storybook.js.org/)
 - [x] [GraphQL Playground](https://github.com/graphql/graphql-playground)
 - [x] deploy (Vercel? Netlify? Heroku? AWS?)
